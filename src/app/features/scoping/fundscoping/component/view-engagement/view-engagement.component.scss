@@ -1,0 +1,115 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixins";
+
+.full-screen {
+  height: 1vh !important;
+}
+
+.currenteng {
+  margin-top: 2vh !important;
+  margin-bottom: -1vh !important;
+    border-bottom: 1px solid #B0B5C1;
+}
+.heading-font {
+  font-size: 24px;
+  color: #444444;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.engagement-row{
+  padding: 22px 0px 0px 0px;
+}
+.engagement-search-padd{
+  padding: 0px 0px 22px 0px;
+}
+.headingSub-font {
+  font-size: 20px;
+  color: #444444;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.text-font {
+  font-size: 12px;
+}
+
+.p-space {
+  margin-bottom: 0px;
+}
+.search-block {
+  width: 28%;
+}
+
+.e-grid .e-gridcontent {
+  border: 0px solid white;
+}
+.engagementWrapper {
+  .ErrorLabel {
+    width: 394px;
+    text-align: center;
+  }
+  .labeldiv {
+    margin-left: 0 !important;
+    &:before {
+      margin-top: 1px !important;
+    }
+  }
+}
+
+ .main-block .e-grid.e-default tr th.e-headercell:first-child:not(.e-firstcell) {
+  padding-left: 60px !important;
+}
+
+ .main-block .bs-stepper-header .step-trigger .highlightlabel {
+  padding-left: 10px;
+}
+.app-fs-routing-cotainer .main-block .table-data .use-flex .fst {
+  padding-top: 5px !important;
+  padding-left: 20px;
+}
+.app-fs-routing-cotainer .main-block .table-data .use-flex .fsts {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+
+
+.main-block .e-input-group-icon .e-ddl-icon .e-search-icon {
+  font-size: 0 !important;
+}
+.engLen {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 14px;
+  line-height: 1;
+}
+.engLen span {
+  font-size: 14px !important;
+}
+.main-block .e-grid .e-icon-filter::before,
+.e-grid .e-icon-filter.e-filtered::before,
+.e-grid-menu .e-icon-filter::before,
+.e-grid-menu .e-icon-filter.e-filtered::before {
+  content: "\e90d";
+  color: #005eb8;
+  font-size: 15px;
+  font-weight: bolder;
+  font-family: $kpmg-icon-font-family;
+}
+.e-toast-container .e-toast .e-toast-message .e-toast-title:last-child,
+.e-toast-container .e-toast .e-toast-message .e-toast-content:last-child {
+  display: none;
+}
+.footer{
+  position: relative;
+  bottom: -15px;
+}
+.flex-end{
+  justify-content: flex-end;
+}
+
+

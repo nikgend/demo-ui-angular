@@ -1,0 +1,32 @@
+<div class="browser-custom">
+  <custom-browser-popup (closingPopUp)="popUpClosed($event)" [enableBackdrop]="true" >
+    <div modalBody>
+      <div>
+        <h4 class="browser-modal-title">{{browserPopupHeaderText}}</h4>      
+      </div>
+      <div class="browser-modal-body">
+        <ng-container>        
+            <p class="mb-2 browser-add-line-break">
+              {{browserPopupBodyText}}
+            </p>
+        </ng-container>
+      </div>
+
+      <div class="browser-modal-footer browser-custom">
+        <button
+          type="button"
+          class="browser-btn btn-primary app-btn-browser confirm-submit-button-browser button-style"
+          (click)="onbtn2Click()">
+          {{YesButtonText}}
+        </button>
+
+        <button
+          type="button"
+          class="browser-btn btn-secondary app-btn-secondary deny-submit-button-browser button-style cancel-button"
+          (click)="triggerCloseBtn()">
+          {{NoButtonText}}
+        </button>
+      </div>
+    </div>
+  </custom-browser-popup>
+</div>

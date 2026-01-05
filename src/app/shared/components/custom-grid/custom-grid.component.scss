@@ -1,0 +1,1564 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/component/toggleButton";
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/ejsgridglobal.scss";
+
+body.e-grid {
+  font-family: Arial,  Helvetica,  sans-serif !important;
+}
+
+.e-grid:not(.e-row-responsive) .e-gridcontent tr.e-row:first-child .e-rowcell {
+  color: white;
+}
+
+.expanded-row-content {
+  border-top: none;
+  display: grid;
+  grid-column: 1/-1;
+  justify-content: flex-start;
+  color: #aeb1b3;
+  font-size: 13px;
+  background-color: #fff;
+}
+.nopoint {
+  cursor: auto !important;
+}
+
+.hide-row {
+  display: none;
+}
+
+// .fundConsoleDataView {
+//   border-style: unset;
+// }
+.e-grid .static-row {
+  background-color: $kpmg-blue-700 !important;
+  color: white;
+  border: 4px solid $kpmg-blue-700;
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.arrow {
+  border: 1px solid $kpmg-md-blue;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  cursor: pointer;
+}
+.e-btn:disabled {
+  opacity: 0.5;
+}
+#dataview.e-grid .e-headercell {
+  background-color: $kpmg-gray-100 !important;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  border-collapse: collapse;
+  line-height: 1;
+  position: relative;
+  height: auto;
+  padding: 21px 8px 21px 10px;
+  .e-headercelldiv {
+    padding: 0 4px;
+  }
+}
+.expandCollapseBtn {
+  text-decoration: none;
+  i {
+    font-size: 16px;
+    font-weight: 400;
+  }
+}
+.e-filtermenudiv{
+    position: absolute;
+    top: 45%;
+    left: 83%;
+}
+
+.e-grid table thead th:first-child{
+  padding-left:10px !important;
+}
+
+.e-grid:not(.static-row) .e-table:not(.static-row) {
+  tr .data-each-row {
+    &:nth-child(odd) {
+      background-color: $kpmg-gray-50;
+    }
+    &:hover {
+      background-color: $kpmg-aphaBlue;
+    }
+    height: 30px;
+  }
+}
+.e-grid .e-table:not(.static-row) .data-each-row:nth-child(even) {
+  background-color: $white;
+  height: 60px;
+}
+
+.float-child {
+  width: 20%;
+  float: left;
+}
+.float-childtext {
+  width: 100%;
+  float: left;
+}
+
+.multiple-values-text {
+  max-width: 60px; //added for bug 3422
+}
+
+.e-grid.e-resize-lines .e-headercell .e-rhandler {
+  border-right: $kpmg-gray-100 !important;
+}
+
+.e-sortfilterdiv .e-icons {
+  content: "\e910" !important;
+  padding-left: 5px !important;
+  color: #005a84 !important;
+   top: 26px !important;
+}
+
+.e-grid .e-gridheader {
+  margin-right: 2px;
+}
+//As per UI team suggestions made the changes Ref bug:3620
+.numberCircle {
+  width: 23px; // Edited due to un usual shape
+  height: 23px; // Edited due to un usual shape
+  line-height: 23px;
+  cursor: pointer !important;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid $kpmg-md-blue;
+  color: white;
+  background-color: $kpmg-md-blue;
+  margin-top: 1px;
+}
+.centre {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.e-grid .e-gridcontent {
+  .centre {
+    text-align: center;
+  }
+}
+ .e-grid .e-gridcontent {
+  border: 4px solid $kpmg-blue-700;
+}
+
+.e-grid .e-table .alternateStripColorrow {
+  color: $kpmg-gray-50;
+}
+
+.e-grid .e-table .e-altrow {
+  background-color: $kpmg-gray-50;
+}
+.e-grid.e-grid .e-rowcell:not(.e-editedbatchcell):not(.e-updatedtd) {
+  color: $kpmg-gray-800;
+}
+.Expanded-Section-Button {
+  background-color: $kpmg-md-blue !important;
+  font-size: 14px !important;
+  color: white !important;
+  margin: 0 0 2px 10px;
+  width: 200px;
+  border-radius: 0 !important;
+}
+.expanded-row-bgcolor {
+  background-color: $kpmg-md-blue-50 !important;
+}
+.expanded-row-text {
+  font-size: 14px !important;
+}
+
+.expanded-row-headertext {
+  font-size: 14px !important;
+  font-weight: bold;
+  color: $kpmg-gray-600;
+}
+.row-hr {
+  margin: 3px 0px;
+  border: 1px solid $kpmg-bg-800;
+  border-bottom: 0px;
+  height: 1px;
+  opacity: unset;
+}
+
+
+.fundConsoleDataView, .fundScopingDataView .e-gridheader .e-sortfilter {
+  .e-headercelldiv {
+    text-align: left;
+    padding: 0;
+    width: 65%;
+    margin: 0;
+    font-size: 16px;
+    display: block;
+    height: auto;
+    line-height: 1;
+  }
+
+  .moreInfoKpm::before{
+    content: "\e90f";
+    font-family: "KPMG-AuditSpire-Icon-Font";
+    font-size: 15px !important;
+    color: $kpmg-md-blue !important;
+    top: 17px !important;
+    right: 10px !important;
+  }
+  
+  .e-sortfilterdiv.e-icons::before {
+    position: absolute;
+    margin-right: 25px;
+    top: 45%;
+    right: 10%;
+    content: "\e922";
+    color: $kpmg-md-blue !important;
+    font-family: "KPMG-AuditSpire-Icon-Font";
+    font-size: 15px !important;
+    transform: translateY(-50%) !important;
+    -webkit-transform: translateY(-50%) !important;
+    -moz-transform: translateY(-50%) !important;
+    -ms-transform: translateY(-50%) !important;
+    -o-transform: translateY(-50%) !important;
+  }
+}
+.e-grid .e-icon-ascending::before {
+  content: "\e922" !important;
+  color: $kpmg-md-blue !important;
+  font-family: "KPMG-AuditSpire-Icon-Font" !important;
+  font-size: 18px !important;
+}
+.e-grid .e-icon-descending::before {
+  content: "\e91f" !important;
+  color: $kpmg-md-blue !important;
+  font-family: "KPMG-AuditSpire-Icon-Font" !important;
+  font-size: 18px !important;
+}
+.e-sortfilterdiv .e-icons .e-ascending .e-icon-ascending {
+  content: "\e916" !important;
+  padding-left: 5px !important;
+  color: #005a84 !important;
+}
+.e-sortfilterdiv.e-icons.e-ascending.e-icon-ascending {
+  background-color: #eaeaea;
+}
+
+.fundConsoleDataView .e-grid .e-headercelldiv {
+  padding: 0 !important;
+  padding-right: 5px !important;
+}
+.e-grid .e-table .e-altrow {
+  background-color: $kpmg-gray-50;
+  height: 36px;
+}
+.e-grid.e-grid .e-rowcell:not(.e-editedbatchcell):not(.e-updatedtd) {
+  color: $kpmg-gray-800;
+}
+.Expanded-Section-Button {
+  background-color: $kpmg-md-blue !important;
+  font-size: 14px !important;
+  color: white !important;
+  margin: 0 0 2px 10px;
+  width: 200px;
+  border-radius: 0 !important;
+}
+.expanded-row-bgcolor {
+  background-color: $kpmg-md-blue-50 !important;
+  border-top: 1px solid $white;
+  padding: 24px 12px;
+}
+.expanded-row-text {
+  font-size: 14px !important;
+}
+
+
+//tool tip {css{
+  .fundConsoleDataView, .fundScopingDataView  .e-gridheader {
+  border-bottom-color: $kpmg-blue-700 !important;
+  margin: 0;
+  border-bottom: 0px !important;
+}
+
+.group-label {
+  font-weight: bold;
+  padding: 0 0 0 2.35%;
+  color: #fff;
+}
+
+.fundScopingDataView  .e-gridheader tr th:first-child {
+  padding-left: calc(2.5% + 2px);
+}
+.fundConsoleDataView, .fundScopingDataView  {
+  .e-columnheader {
+    .e-headercell {
+      text-align: left;
+    }
+  }
+}
+.child-rows-container {
+  border-top: 1px solid $white;
+  display: flex;
+  justify-content: center;
+
+  .child-button {
+    .btn {
+      span {
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+      };
+      padding: 0px 0px 0px 0px !important;
+      height: 30px !important;
+      width: 150px;
+    }
+  }
+  .child-info {
+    padding-left: 35px;
+    &.child-investment {
+      padding-left: 60px;
+    }
+    h5 {
+      font-size: 16px;
+      font-weight: bold;
+      color: $kpmg-gray-800;
+      margin: 0;
+      display: block;
+      text-transform: uppercase;
+      padding-bottom: 3px;
+      line-height: 1;
+      border-bottom: 1px solid $kpmg-gray-600;
+      width: 100%;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 15px 0 0;
+      li {
+        font-size: 16px;
+        color: $kpmg-gray-800;
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+.e-grid .e-content {
+   border-bottom: 1px solid $kpmg-shadow !important;
+  height: calc(100vh - 480px) !important;
+} 
+
+.form-check-input {
+  height: 25px;
+  width: 25px;
+  margin-top: 0;
+  border-color: $gray-blue-600;
+  &:focus {
+    border-color: $gray-blue-600;
+    box-shadow: none;
+  }
+  &:checked {
+    background-color: $kpmg-md-blue;
+    border-color: $gray-blue-600;
+  }
+}
+
+.kpmgicon-minus-circle-outline {
+  width: auto;
+  max-width: 85%;
+}
+
+.e-grid .e-gridheader {
+  color: $kpmg-gray-800;
+}
+
+.data-each-row {
+  td {
+    padding: 0 1% 0 0;
+    word-break: break-word;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: top;
+    line-height: 1.3 !important;
+    vertical-align: middle;
+
+    &.currency-label,
+    &.startDate-label,
+    &.endDate-label {
+      text-align: center;
+    }
+  }
+  .fund-name-label {
+    padding: 0 1% 0 calc(2.5% - 2px);
+  }
+}
+.e-grid {
+  &.empty-data-table {
+    opacity: 0.4;
+    pointer-events: none;
+    .e-icon-filter::before,.e-sortfilter .e-sortfilterdiv.e-icons::before{
+      color: #AFC7DD !important;
+    }
+    .e-rhandler.e-rcursor{
+      border-right-color: #9C9FA5 !important;
+    }
+    .e-headertext{
+      color: #9C9C9C !important;
+    }
+  }
+}
+.e-grid {
+  &.empty-data-table {
+    border: none;
+    .e-gridheader {
+      border-bottom: none;
+    }
+    .e-gridcontent {
+      border: none;
+      .e-table {
+        tr.e-emptyrow {
+          background-color: transparent;
+          cursor: auto;
+          td {
+            padding: 50px 15px 15px 15px;
+            text-align: center;
+            font-weight: 700;
+            color: $kpmg-md-blue-700;
+            font-size: 24px;
+            line-height: 34px;
+          }
+        }
+      }
+    }
+  }
+  .e-altrow.data-each-row {
+    td {
+      &:not(:first-child) {
+        padding: 0 10px;
+      }
+    }
+  }
+  .e-columnheader {
+    th {
+      &:not(:first-child) {
+        border-left: 1px solid $kpmg-bg-600;
+      }
+    }
+  }
+}
+
+.e-altrow.data-each-row.onNoScroll {
+  td {
+    &:first-child{
+      padding:0 12px!important;
+    }
+    &:not(:first-child) {
+    padding: 0 14px!important;
+    }
+  }
+}
+
+.e-altrow.data-each-row.onScroll {
+  td {
+    &:first-child{
+      padding:0 12px!important;
+    }
+    &:nth-child(2) {
+    padding: 0 16px!important;
+    }
+    &:nth-child(3){
+      padding: 0 19px!important;
+    }
+    &:nth-child(4){
+      padding: 0 23px!important;
+    }
+    &:nth-child(5){
+      padding: 0 25px!important;
+    }
+  }
+}
+
+.align-btn-text {
+  height: auto;
+  min-height: 50px;
+  border-radius: 0px;
+  line-height: 100%;
+  padding: 8px 20px;
+  font-size: 18px;
+}
+
+.table-data {
+  // white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 1.5 !important;
+  vertical-align: middle;
+  display: -webkit-box;
+  -webkit-line-clamp: 2 !important; /* number of lines to show */
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical;
+}
+
+.use-flex {
+  display: flex;
+}
+ 
+.underline {
+  border-bottom: 1px solid $kpmg-bg-800;
+  padding-bottom: 6px;
+}
+.selectedelipse:before {
+  color: white !important;
+  background-color: #005eb8;
+  width: 20px !important;
+  height: 30px !important;
+}
+.popText {
+  color: white !important;
+  text-align: center;
+  font-size: 12px;
+  padding-right: 10px;
+  padding-left: 15px;
+  padding-top: 10px;
+  text-decoration: unset !important;
+  letter-spacing: 0.1em;
+  transition: text-shadow 0.3s;
+}
+.popText:hover {
+  cursor: pointer;
+  text-shadow: 0 0 1.5px white, 0 0 1.5px white;
+}
+.asub {
+  overflow: hidden;
+  white-space: nowrap;
+  // text-overflow: ellipsis;
+}
+.stringlength {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.mar-left-tmp {
+  color: white !important;
+  background-color: #005eb8 !important;
+}
+.mar-left {
+  padding-top: 11px;
+}
+.fst {
+  color: $kpmg-md-blue !important;
+  padding-left: 14px;
+  cursor: pointer;
+}
+.fst:hover {
+  cursor: pointer;
+  color: $kpmg-blue !important;
+}
+.kpmgicon-ellipsis:before {
+  content: "";
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #005eb8;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.app-custom-grid-view .e-dialog .e-footer-content {
+  text-align: right;
+  position: relative;
+  right: 69px;
+  border-top: 0px solid #dee2e6 !important;
+}
+.e-dialog .e-footer-content .e-btn {
+  margin-left: -130px;
+}
+.e-dialog .e-footer-content {
+  padding: 8px;
+}
+.e-footer-content .e-btn.e-primary.e-flat:not([DISABLED]) {
+  color: #fff;
+  font-weight: bold;
+}
+.e-footer-content .e-btn.e-flat:not([DISABLED]) {
+  color: black;
+  font-weight: bold;
+}
+.e-input-group-icon.e-ddl-icon, .e-input-group.e-ddl .e-input[readonly] ~ span.e-input-group-icon.e-ddl-icon, .e-input-group.e-control-wrapper.e-ddl .e-input[readonly] ~ span.e-input-group-icon.e-ddl-icon {
+  background-color: $kpmg-gray-100 !important;
+  color: $kpmg-bg-600 !important;
+  font-weight: bolder;
+  padding-left: 0;
+  text-align: center;
+  font-size: 14px;
+  min-width: 35px;
+  border-left: 1px solid #4e5863!important;
+}
+.fundScopingDataView {
+  input.form-control.kpmgicon-calender.input-date::-webkit-calendar-picker-indicator {
+    background: none;
+  }
+  
+  input.form-control.kpmgicon-calender.input-date::before {
+    font-family: 'KPMG-AuditSpire-Icon-Font' !important;
+    width: 38px;
+    height: 35px;
+    color: #4E5863;
+    line-height: 34px;
+    background-color: $gray-100;
+    position: absolute;
+    right: 0px;
+    padding: 0 9px;
+    text-indent: -0.6px;
+    font-size: 21px;
+    top: 0px;
+  }
+  .kpmg-input {
+    &.kpmgicon-calender{
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+    &.input-date {
+      &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        background-color: #eaeaea;
+        z-index: 9999;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+  .e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
+      height: 8px;
+      width: 16px;
+      line-height: 0.8;
+      margin-top: 0px;
+  }
+}
+.fundClip {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 25px;
+  vertical-align: middle;
+  -webkit-line-clamp: 2;
+  margin-bottom: 0;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 220;
+}
+
+.hide-null-value {
+  display: none !important;
+}
+  .e-gridcontent {
+  border: none !important;
+  cursor: pointer;
+  border-style: none;
+}
+
+#tooltip {
+  input.form-control.kpmg-input.input-date::before {
+    width: 35px;
+    height: 34px;
+    background-color: $gray-100;
+    position: absolute;
+    right: 0px;
+    border-left: 1px solid $gray-600;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+  .kpmg-input {
+    &:active,
+    &:focus {
+      border: 1px solid #747474 !important;
+    }
+    &.input-date {
+      &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        background-color: #eaeaea;
+        // padding: 7px;
+        z-index: 9999;
+      }
+    }
+  }
+  .error-field .kpmg-input.input-date {
+    &:active,
+    &:focus {
+      border: 2px solid $non-brand-red !important;
+    }
+  }
+
+  .e-grid .e-focused:not(.e-menu-item){
+    box-shadow: none !important;
+  }
+  input.form-control.kpmgicon-calender.input-date::-webkit-calendar-picker-indicator {
+    background: none;
+  }
+  
+  input.form-control.kpmgicon-calender.input-date::before {
+    font-family: 'KPMG-AuditSpire-Icon-Font' !important;
+    width: 35px;
+    height: 35px;
+    color: #4E5863;
+    line-height: 34px;
+    background-color: $gray-100;
+    position: absolute;
+    right: 0px;
+    padding: 0 9px;
+    text-indent: -3px;
+    font-size: 21px;
+  }
+  .kpmg-input {
+    &.kpmgicon-calender{
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+    &.input-date {
+      &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        background-color: #eaeaea;
+        z-index: 9999;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+  .kpmg-input {
+    cursor: pointer;
+    color: $gray-800;
+    padding: 0px 0px 0px 7px;
+    border-radius: 2px;
+    border: 1px solid $gray-blue-600;
+    max-height: 34px;
+    width: 100%;
+    outline: none;
+    box-shadow: none;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1;
+    position: relative;
+
+    &.input-date {
+      text-transform: uppercase;
+      padding-right: 0;
+      font-size: 16px;
+
+      &::before {
+        width: 1px;
+        height: 100%;
+        background-color: $gray-600;
+        position: absolute;
+        right: 30px;
+      }
+      &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        background-color: #eaeaea;
+        padding: 7px;
+      }
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      margin: 0;
+      font-size: 16px;
+      line-height: 1;
+      position: relative;
+    
+      &.input-date {
+        text-transform: uppercase;
+        padding-right: 0;
+        font-size: 16px;
+    
+        &::before {
+          width: 1px;
+          height: 100%;
+          background-color: $gray-600;
+          position: absolute;
+          right: 30px;
+        }
+        &::-webkit-calendar-picker-indicator {
+          cursor: pointer;
+          background-color: #eaeaea;
+          padding: 7px;
+        }
+      }
+    
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+.fundScopingDataView .e-filtermenudiv.e-icons.e-icon-filter {
+  padding: 24px 10px 8px 13px !important;
+}
+
+.fundConsoleDataView  .e-filtermenudiv.e-icons.e-icon-filter {
+  padding: 8px 10px 8px 10px !important;
+}
+ 
+.e-multi-select-list-wrapper .e-dropdownbase .e-list-item.e-item-focus {
+  .e-checkbox-wrapper .e-frame.e-check {
+    border-color: $white;
+    color: $white;
+  }
+  &.e-hover {
+    background-color: $kpmg-m-blue;
+    color: $white !important;
+  }
+}
+.numberField::-webkit-outer-spin-button,
+.numberField::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.edit-fund-input-fields,.numberField,.e-input-focus.e-icon-anim{
+  height: 34px !important;
+  box-shadow: none !important;
+  .e-input-group{
+   input{
+    height: 34px !important;
+   }
+  }
+  &:active,&:focus{
+    box-shadow: none !important;
+    }
+  .e-input-group,.e-input-group-icon,.e-multiselect,.e-multi-select-wrapper{
+    height: 100% !important;
+    .e-delim-view{
+      line-height: 2.1 !important;
+    }
+  }
+  .e-input-group {
+    .e-input {
+      height: 100%;
+    }
+  }
+}
+::ng-deep .e-multiselect{
+  height: 34px !important;
+  &:active,&:focus{
+    box-shadow: 0px 2px 4px #bbb !important;
+    }
+}
+.error-field {
+  .editInputStructure {
+    border: 2px solid $non-brand-red !important;
+  }
+    .edit-fund-multiselect {
+      .e-multiselect {
+        border: 2px solid $non-brand-red  !important;
+      }
+    }
+  .mulitselect-editfield.e-multiselect.e-input-group.e-control-wrapper,
+  .mulitselect-editfield.e-multiselect.e-input-group.e-control-wrapper {
+    border: 2px solid $non-brand-red !important;
+  }
+}
+.fundScopingDataView {
+  .e-multiselect.e-input-group.e-control-wrapper.e-checkbox.e-valid-input{
+    &:active,&:focus{
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+  }
+  .e-list-item.e-item-focus {
+    background-color: #eaeaea !important;
+  }
+  .e-list-item.e-item-focus.e-hover {
+  color: black !important;
+  }
+  .e-list-item.e-active.e-item-focus.e-hover{
+  color: white !important;
+  }
+}
+::ng-deep .e-popup.e-ddl {
+  ul{
+    li{
+      height: 34px !important;
+    }
+  }
+}
+.engagement-block .e-btn.e-flat.e-primary:disabled{
+  background-color: #7EADDb !important;
+}
+
+.iconCSS .kpmgicon-routine-selection:before,
+.iconCSS .kpmgicon-data-import:before,
+.iconCSS .kpmgicon-data-mapping:before,
+.iconCSS .kpmgicon-process:before,
+.iconCSS .kpmgicon-fund_scoping:before,
+.iconCSS .kpmgicon-Lock:before
+{
+  font-size: 18px ;
+  vertical-align: text-top;
+  margin-right: 5px;
+  color: #444444;
+}
+
+.fundScopingDataView {
+ .kpmg-input.input-date{
+    -webkit-text-fill-color: $gray-800 !important;
+    &:before{
+      right: -2px !important;
+    }
+  }
+  ejs-dropdownlist {
+    margin: 0px 4px 4px 0px !important;
+  }
+}
+
+.e-input-group .e-input-group-icon, .e-input-group.e-control-wrapper .e-input-group-icon {
+  min-height: 30px !important;
+  min-width: 35px;
+}
+
+
+.e-input-group.e-control-wrapper.e-popup-flmenu.e-ddl.e-focus {
+  box-shadow:  none !important;
+  border:1px solid $gray-blue-600 !important;
+  outline: none !important;
+}
+
+.e-input-group.e-control-wrapper.e-input-focus {
+  box-shadow: none !important;
+  border-color: $gray-blue-600 !important;
+  &:hover {
+    box-shadow: none !important;
+    border-color: $gray-blue-600 !important;
+  }
+}
+
+.e-flmenu-input.e-control.e-autocomplete.e-lib.e-input.e-keyboard {
+  &:focus, &:active {
+    border:$gray-blue-600 !important;
+  }
+}
+
+.create-engagement .e-input-group-icon.e-ddl-icon, .e-input-group .e-input-group-icon, .e-input-group.e-control-wrapper .e-input-group-icon, .e-multiselect.e-input-group .e-ddl-icon {
+  right: 0px;
+}
+
+.fundScopingDataView .e-headertext{
+  padding-left:0px !important;
+}
+
+.e-grid{
+  border-style: none !important;
+}
+
+.e-grid .e-sortnumber{
+  display: none;
+}
+
+
+.fundConsoleDataView .e-filtermenudiv{
+  margin: -20px -9px -20px -9px !important;
+}
+
+.fundScopingDataView .e-filtermenudiv{
+  margin: -24px -9px -20px -9px !important; //VB
+}
+
+.teamManagementTemplate .e-grid.empty-data-table .e-gridcontent .e-table tr.e-emptyrow td{
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+    color: #444444 !important;
+}
+
+
+​.tooltipicon {
+  position: relative;
+   
+  border-bottom: 1px dotted black;
+}
+
+.tooltipicon .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltipicon .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltipicon:hover .tooltiptext {
+  visibility: visible;
+}
+.error-field .kpmg-input.input-date {
+  border:2px solid #981f3e !important;
+}
+.e-tooltip-wrap .e-tip-content {
+  color: white;
+  font-family: Arial;
+  font-size: 16px;
+  padding:10px;
+  border-radius: 2px;
+  background-color: #000;
+}
+
+
+.e-grid .e-gridheader .e-fltr-icon .e-sortfilterdiv {
+  margin: -11px 20px -29px 0 !important;
+}
+
+.e-switch-wrapper .e-switch-inner.e-switch-active, .e-css.e-switch-wrapper .e-switch-inner.e-switch-active{
+  background-color: #fff !important;
+}
+
+.fundScopingDataView tr.e-altrow.data-each-row:hover {
+  background: $kpmg-aphaBlue !important;
+}
+.fundConsoleDataView tr.e-altrow.data-each-row:hover {
+  background: $kpmg-aphaBlue !important;
+}
+.fundScopingDataView tr:nth-child(even) {
+  background-color: $kpmg-aliceBlue-100 !important;
+}
+.fundScopingDataView tr:nth-child(odd) {
+  background-color: #fff !important;
+}
+.scoping-header .e-grid {
+  border: none;
+  border-bottom: 1px solid #B0B5C1 !important;
+}
+.e-grid .e-gridheader{
+  border: 0;
+}
+
+.e-dropdownbase .e-list-item.e-item-focus {
+  &:nth-child(even) {
+    background-color: $kpmg-gray-100 !important;
+  }
+  &:nth-child(odd) {
+    background-color: $white !important;
+  }
+  &.e-active, &.e-hover {
+    background-color: #005eb8 !important;
+    color: #fff;
+  }
+}
+
+.ej-grid-column-style{
+  display: flex; 
+  text-align: left;
+}
+
+.team-management-container {
+  #dataview.e-grid .e-headercell {
+    padding: 20px 8px 19px 10px !important;
+  }
+}
+
+.active-inactive-column-data .e-switch-wrapper.e-switch-disabled {
+  cursor: not-allowed;
+}
+.app-dashboard-table .expandCollapseBtn {
+  i {
+    font-size: 18px;
+  }
+}
+.fundConsoleDataView .e-gridcontent .e-table tr.e-emptyrow td {
+  padding: 0!important;
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  height: 0!important;
+  font-family: Arial,Helvetica,sans-serif!important;
+  font-size: 16px!important;
+  font-weight: normal!important;
+  color: #444!important;
+}
+
+.scoping-header .e-input-group-icon.e-date-icon::before, .scoping-header *.e-control-wrapper .e-input-group-icon.e-date-icon::before {
+  content: "\e93d" !important;
+}
+
+.main-block.engagement-block .e-input-group-icon.e-date-icon::before, .main-block.engagement-block *.e-control-wrapper .e-input-group-icon.e-date-icon::before {
+  content: "\e93d" !important;
+}
+
+.e-flmenu-valuediv .e-input-group.e-control-wrapper.e-popup-flmenu.e-date-wrapper .e-input-group-icon.e-date-icon{
+  border-left: 1px solid $gray-blue-600 !important;
+  margin: 0 !important;
+  font-size: 16px !important;
+  position: relative;
+  color: $gray-blue-600 !important;
+  font-weight: bolder !important;
+  right: 0px;
+  background-color: $kpmg-gray-100 !important;
+  &::before {
+    content: '\e93d' !important;
+    @include kpmgIcon();
+    font-size: 16px;
+    color: $gray-blue-600 !important;
+    font-weight: 400;
+    height: 8px;
+    margin-top: -6px;
+  }
+}
+.engagement-block .fundScopingDataView {
+  .e-popup.e-ddl {
+    ul {
+      li {
+        font-size: 16px !important;
+        text-indent: 7px !important;
+      }
+    }
+  }
+  .e-gridcontent {
+    transform: translateZ(0);
+    border: none;
+    .e-table {
+      tr.e-emptyrow {
+        background-color: transparent;
+        cursor: auto;
+        td {
+          padding: 0 !important;
+          position: fixed;
+          left: 50%;
+          top: 45%;
+          @include transform(translateX(-50%));
+          height: 0 !important;
+          font-family: $kpmg-font-family !important;
+          font-size: 16px !important;
+          font-weight: normal !important;
+          color: $gray-800 !important;
+        }
+        &:hover {
+          background-color: transparent;
+        }
+        td {
+          padding: 4px 15px 15px 15px;
+          text-align: center;
+          font-weight: 100;
+          height: 350px;
+          font-family: Arial !important;
+          font-size: 16px !important;
+          color: $gray-800 !important;
+        }
+      }
+    }
+  }
+}
+.engagement-block  .fundScopingDataView.e-grid .e-table:not(.static-row) .data-each-row:nth-child(even) {
+  background-color: #f6f7f9;
+  height: 30px;
+}
+.engagement-block .fundScopingDataView .e-filtered::before {
+  color: #00338d !important;
+}
+
+:host ::ng-deep th.e-headercell.e-lastcell.e-defaultcursor {
+  display: none;
+}
+.engagement-block .fundScopingDataView .e-grid .e-gridcontent {
+  border: 0px;
+}
+.engagement-block .fundScopingDataView .e-grid .e-gridheader {
+  border-bottom-width: 0px;
+  border-bottom-color: #fff;
+}
+.engagement-block .fundScopingDataView .data-each-row td.currency-label,
+.data-each-row td.startDate-label,
+.data-each-row td.endDate-label {
+  text-align: left;
+}
+.engagement-block .fundScopingDataView .data-each-row td {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  &.fs-fundName {
+    padding-top: 5px !important;
+  }
+  .numberCircle {
+    margin-bottom: 0px !important;
+  }
+}
+.engagement-block .fundScopingDataView .e-gridheader.e-lib.e-droppable {
+    padding-right: 0px !important;
+  }
+  .app-fs-routing-cotainer .alert-primary {
+    height: 40px;
+  }
+  
+  .app-fs-routing-cotainer .app-alert-box.alert.alert-primary i {
+    top: -5px !important;
+  }
+  
+  .app-fs-routing-cotainer .app-alert-box.alert.alert-primary .alert-primary-message {
+    line-height: 1 !important;
+  }
+  
+  .app-fs-routing-cotainer .app-alert-box.alert .btn-icon {
+    top: 10px !important;
+  }
+  
+  .app-fs-routing-cotainer .app-alert-box.alert {
+    margin-bottom: 10px !important;
+  }
+  .engagement-block .fundScopingDataView {
+    .e-dlg-content {
+      .e-flmenu-maindiv {
+        .e-flm_optrdiv {
+          .e-input-group-icon {
+            border: none !important;
+          }
+          .e-input-group-icon.e-ddl-icon {
+            right: unset !important;
+          }
+        }
+      }
+    }
+  
+    .e-content table td:nth-child(1) {
+      color: $kpmg-blue !important;
+      padding-top: 2px !important;
+      padding-bottom: 5px !important;
+      padding-left: 0 !important;
+    }
+  }
+  .fundScopingDataView .use-flex .changeView {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    left: 40px;
+    z-index: 9999;
+    background-color: #005eb8;
+    margin-top: 0px;
+    .popText.disabled {
+      opacity: 0.6;
+      pointer-events: none;
+      cursor: none;
+    }
+  }
+  .fundScopingDataView .use-flex .change-view-edit {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    &.disabled {
+      opacity: 0.7;
+      * {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+    }
+  }
+  .section-close-out-fund tr:nth-child(even) {
+    background-color: $kpmg-aliceBlue-100 !important;
+  }
+  .section-close-out-fund tr:nth-child(odd) {
+    background-color: #fff !important;
+  }
+
+  .dropdown-container {
+    box-sizing: border-box;
+    font: inherit;
+    font-family: Arial;
+    user-select: none;
+  }
+  
+  .dropdown-body {
+    border: 1px solid #4E5863 !important;
+    background: #fff;
+    position: absolute;
+    width: 260px;
+    z-index: 1000;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis; /* Adds ellipsis (...) */
+    white-space: normal; /* Allows text wrapping */
+    // Chrome, Edge, Safari
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $kpmg-md-blue;
+      border-radius: 4px;
+    }
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $kpmg-md-blue transparent;
+  }
+  
+  .add-item-row {
+    margin: 5px;
+    height: 38px;
+    display: flex;
+    .btn {
+      margin: 0 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: blue;
+    }
+    
+     .buttonIcon {
+      font-size: 25px;
+      position: relative;
+      font-weight: bolder;
+    }
+  }
+  
+  .add-item-row input {
+    padding: 5px;
+    width: 100%;
+    text-overflow: ellipsis; /* Adds ellipsis (...) */
+    white-space: normal; /* Allows text wrapping */
+  }
+  
+  .add-item-row input.invalid {
+    border-color: red;
+  }
+  
+  .dropdown-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    text-overflow: ellipsis; /* Adds ellipsis (...) */
+    white-space: normal; /* Allows text wrapping */
+    max-width: 100%;
+    &:nth-child(odd) {
+      background-color: $kpmg-gray-100 !important;
+    }
+    &:nth-child(even) {
+      background-color: $white !important;
+    }
+    &:hover {
+      background-color: #005eb8 !important;
+      color: #fff;
+    }
+    &.selected-option {
+      background-color: #005eb8 !important;
+      color: #fff;
+    }
+  }
+  
+  .dropdown-item:hover {
+    background: #005eb8 !important;
+  }
+
+  .dropdown-item.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: red;
+    padding: 4px 8px;
+    font-size: 12px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 220px;
+   }
+  
+
+  .addButon {
+  text-decoration: none;
+  margin: auto;
+  color: $kpmg-md-blue;
+  padding-left: 0px;
+  padding-right: 0px;
+  &:hover {
+    color: $kpmg-blue;
+    .kpmgicon-add-circle-outline::before {
+      color: $kpmg-blue;
+    }
+    .kpmgicon-minus-circle-outline:before {
+      color: $kpmg-blue;
+    }
+   }
+ }
+
+.no-group-message {
+  opacity: 0.6;
+}
+
+.dropdown-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d7d7d7;
+  height: 36px;
+  border: 1px solid #4E5863 !important;
+  background-color: #fff;
+  background: white;
+  cursor: pointer;
+  justify-content: space-between;
+  .dropdown-value {
+    text-overflow: ellipsis; /* Adds ellipsis (...) */
+    white-space: normal; /* Allows text wrapping */
+    align-items: center;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0 8px;
+    font-size: 14px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .clearSpan {
+    position: absolute;
+    right: 36px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #888;
+    &:hover {
+      color: #000;
+    }
+    text-align: center;
+  }
+  
+  .customClass-clear {
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .kpmgicon-close:before {
+    color: $kpmg-gray-800;
+  }
+
+  .dropdown-arrow {
+    pointer-events: none;
+    border-left: 1px solid #4E5863 !important;
+    font-size: 16px !important;
+    position: relative;
+    color: #4E5863 !important;
+    font-weight: bolder !important;
+    background-color: #eaeaea !important;
+
+    &::before {
+    content: "\e926" !important;
+    font-family: "KPMG-AuditSpire-Icon-Font" !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 2.1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "KPMG-AuditSpire-Icon-Font" !important;
+    font-size: 16px;
+    color: #4E5863 !important;
+    margin: 9px;
+    }
+    &:hover {
+      &::before {
+        color: $kpmg-m-blue !important;
+      }
+    }
+  }
+ }
+
+ ::ng-deep .fundScoping-dialog-box {
+  .modal-dialog {
+    max-width: 570px !important;
+  }
+  .modal-body {
+    p {
+      font-weight: normal !important;
+    }
+  }
+}
+
+.disable-fundGroup-dropdown {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.disabled-row {
+  background-color: #f0f0f0; /* Light grey background */
+  pointer-events: none; /* Disable all interactions */
+  opacity: 0.6; /* Reduce opacity for a disabled look */
+}
+.table-data-flex {
+display: flex;
+align-items: center;
+}
+
+.margin-left-auto {
+margin-left: auto;
+}
+
+.progressbar-green {
+--progress-color: #009A4A; /* Custom property for progress color */
+}
+
+// High specificity highlighting for newly added funds
+.e-grid .e-gridcontent .e-row.newly-added-fund,
+.e-grid .e-gridcontent .e-altrow.newly-added-fund,
+tr.newly-added-fund,
+.newly-added-fund {
+  border: 3px solid #69be4f !important;
+  border-radius: 4px !important;
+  background-color: #edf7eb !important;
+  animation: highlight-fade 3s ease-out forwards !important;
+}
+
+// More specific targeting for Syncfusion grid rows
+.e-grid .e-gridcontent .newly-added-fund td {
+  border-top: 3px solid #69be4f !important;
+  border-bottom: 3px solid #69be4f !important;
+  background-color: #edf7eb !important;
+}
+
+.e-grid .e-gridcontent .newly-added-fund td:first-child {
+  border-left: 3px solid #69be4f !important;
+}
+
+.e-grid .e-gridcontent .newly-added-fund td:last-child {
+  border-right: 3px solid #69be4f !important;
+}
+
+@keyframes highlight-fade {
+  0% {
+    border: 3px solid #69be4f !important;
+    background-color: #edf7eb !important;
+  }
+  100% {
+    border: 1px solid transparent !important;
+    background-color: transparent !important;
+  }
+}

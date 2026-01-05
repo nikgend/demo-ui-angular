@@ -1,0 +1,121 @@
+<div class="fund-scoping-details-container">
+  <div class="page-header" id="fund-details-page-header">
+    <app-page-header pageHeader="{{'Fund Scoping' | alternateWorkflowLable}}"></app-page-header>
+    <app-alert-success [showSuccess]='showSuccessMessage' [successResponse]='successResponse'
+      (closeSuccess)="closeSuccessAlert()"></app-alert-success>
+    <!-- <div class="alert alert-danger app-alert-box" role="alert" *ngIf='showCannotDeleteMessage'>
+    <i class="kpmgicon-exclamation-triangle"></i>
+       {{cannotdeleteResponse}}
+    <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+      (click)='closeThecannotdeleteAlert("closecannotdelete")'></button>
+  </div> -->
+    <div class="alert alert-primary app-alert-box" role="alert" *ngIf='showSeletefundMessage'>
+      <i class="kpmgicon-question-circle question"></i>
+      {{selectFundMessage}}
+      <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+        (click)='closeSelectFundAlert("info")'></button>
+    </div>
+    <div>
+    </div>
+    <app-engagement-details></app-engagement-details>
+    <div class="app-alert-container">
+      <ng-container>
+        <app-alert-error [showErrorAlert]='editFundErrorStatus' [showErrorAlertMessage]='fundNameErrorMessage'
+          (closeError)="closeTheBannerAlert()"></app-alert-error>
+        <div class="row alertCs">
+          <ul class="alert alert-success app-alert-box errorMsgw" role="alert" *ngIf='showUpdateFundSuccessMessage'>
+            <li  class="alert-details">
+              <span><i class="kpmgicon-check-circle"></i></span>
+              <span class="alertmsg">{{successUpdateFundResponse}}</span>
+              <span class="alert-button"><button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+                 (click)='closeUpdateSuccessAlert()'></button></span>
+            </li>
+           </ul>
+        </div>
+        <div class="row alertCs">
+          <ul class="alert alert-success app-alert-box errorMsgw" role="alert" *ngIf='showDeleteSuccessMessage'>
+            <li class="alert-details">
+              <span><i class="kpmgicon-check-circle"></i></span>
+              <span class="alertmsg">{{deleteSuccessResponse}}</span>
+              <span class="alert-button"><button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+                (click)='closeThedeleteAlert("success")'></button></span>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+    <div class="FundDetailContainer">
+      <div class="row alertCs">
+        <ul class="alert alert-success app-alert-box errorMsgw" role="alert" *ngIf='isSucceeded'>
+          <li  class="alert-details">
+            <span><i class="kpmgicon-check-circle"></i></span>
+            <span class="alertmsg">{{successFundMessage | alternateWorkflowLable}}</span>
+            <span class="alert-button"><button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+               (click)='closeTheSucessFundAlert("isSucceeded")'></button></span>
+          </li>
+         </ul>
+      </div>
+      <div class="row alertCs">
+        <ul class="alert alert-success app-alert-box errorMsgw" role="alert" *ngIf='isFundGroupSucceeded'>
+             <li  class="alert-details">
+               <span><i class="kpmgicon-check-circle"></i></span>
+               <span class="alertmsg">{{sucessFundGroupMessage | alternateWorkflowLable }}</span>
+               <span class="alert-button"><button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+                  (click)='closeTheSucessFundAlert("isSucceeded")'></button></span>
+             </li>
+         </ul>
+      </div>
+      <div class="row alertCs">
+        <ul class="alert alert-success app-alert-box errorMsgw" role="alert" *ngIf='isSucceededDeleteFundGroup'>
+          <li  class="alert-details">
+            <span><i class="kpmgicon-check-circle"></i></span>
+            <span class="alertmsg">{{successDeleteFundGroupMessage  | alternateWorkflowLable }}</span>
+            <span class="alert-button"><button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+               (click)='closeTheSucessDeleteFundAlert("isSucceededDeleteFundGroup")'></button></span>
+          </li>
+         </ul>
+      </div>
+      <div class="d-flex justify-content-between scoping-header scoping-groupname">
+        <div class="row"><span class="fundScoping-screen-sub-title">{{'Fund Details' | alternateWorkflowLable }}</span></div>
+        <div class="fc-col fc-btns">
+          <button type="button" class="btn btn-link addButon" (click)="openAddFund()" [disabled]="isEngagementClosed"> <i
+              class="kpmgicon-add-circle-outline buttonIcon"></i>
+              {{'Add Fund' | alternateWorkflowLable }}</button>
+          <button type="button" class="btn btn-link deleteButton" (click)="deleteFund()" [disabled]="isEngagementClosed"> <i
+              class="kpmgicon-minus-circle-outline buttonIcon"></i>{{'Delete Fund' | alternateWorkflowLable }}</button>
+        </div>
+      </div>
+
+      <div class="scoping-header" id="scopingHeader" [ngClass]="isSucceeded ? 'isSucceeded' : ''">
+        <Custom-Grid *ngIf="RowDefinitiondata" [requestCameFrom]="'fundScoping'" [columnsList]="columnDefinition" [data]="RowDefinitiondata"
+          (fundNameValidation)="checkFundNameValidation($event)" [showAdd]="false" [showDelete]="false"
+          [showUpdate]="false" [enableSorting]="true" [showFilter]="false" [enablecheckbox]="true"
+          (rowSelected)="rowSelected($event)" [height]="325" [UseFundScopingTemple]="true"
+          [isGridRefreshRequired]="refreshTheGrid" (editedFundDetails)="receiveEditedFundDetails($event)"
+          (dataCount)="getFilterCount($event)" (reloadGrid)="reloadFundDetails()">
+        </Custom-Grid>
+        <!-- (selectedFundId)="SelectedFundId($event)" -->
+      </div>
+      <div class="engLen pull-right">
+        {{dataLength}}
+        <span>{{'Funds' | alternateWorkflowLable}}</span>
+      </div>
+      <div class="d-flex justify-content-between pt-3 ">
+        <button type="button" class="pull-left btn btn-tertiary app-outline-tertiary" (click)="navigateToScopingList()">
+          Back
+        </button>
+        <button type="button" class="btn btn-primary app-btn-primary continueBtn" (click)="navigatetoroutineselection()"
+          [disabled]="RowDefinitiondata.length === 0">
+          <span class="pContinue">Continue</span>
+          <i class="kpmgicon-chevron-right continueIcon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- <app-add-fund (newFundAdded)='refreshOnNewFundAdd($event)'></app-add-fund> -->
+  <div class="fundScoping-dialog-box">
+    <custom-confiramtion-dialog class="custom-dialog" [widthFlag]="widthFlag" [deletModalTitle]="deletModalTitle | alternateWorkflowLable"
+      [deleteModalMessage]="deleteModalMessage | alternateWorkflowLable" [customData]="selectedFunNameList"
+      [dynamicClassForList]="dynamicClassForList" (onIsUserConfirmed)="isUserConfired($event)"
+      [isbuttonNoValue]="isbuttonNoValue" [buttonYesValue]="buttonYesValue"></custom-confiramtion-dialog>
+  </div>

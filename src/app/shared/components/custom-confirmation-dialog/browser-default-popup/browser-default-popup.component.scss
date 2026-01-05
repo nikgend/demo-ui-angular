@@ -1,0 +1,139 @@
+@import "src/app/styles/abstracts/variables";
+@import "src/app/styles/abstracts/mixins";
+
+
+.browser-modal-body {
+  margin-top: 10px;
+  padding: 0px 20px 0;
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+    .col-12,
+    .col-3 {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+
+.deny-submit-button-browser {
+  vertical-align: middle;
+  border: 0px;
+  padding: 10px 20px 9px 20px;
+  line-height: 1;
+  color: #444444;
+  &:hover {
+    background: #b2b9C2;
+    color: #444444;
+  }
+}
+
+.browser-custom.model .modal-dialog {  
+  max-width: none;  
+}
+
+.selected-fund-row {
+  height: auto;
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: auto;
+  @include scrollBarStyle();
+
+  .text-align-delete-fund-modal{
+    padding-top: 0px;
+    padding-bottom: 0px;  
+  }
+  .text-align-uploadDup-fund-modal{
+    padding-top: 20px;
+    padding-bottom: 10px;  
+  }
+}
+
+.button-style {
+  border-radius: 3px !important;
+  margin-bottom: -1px;
+}
+
+.cancel-button {
+  background-color: #e1e5eb !important; 
+  height:41px;
+  margin-left: 14px; 
+  margin-right: -4px !important;
+  margin-bottom: -8px;
+  border-radius: 3px !important;
+}
+
+.browser-modal-title {
+  margin-left: 18px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.confirm-submit-button-browser {
+  margin-top: 8px;
+}
+
+.browser-custom {
+ margin-top: 20px;
+ border-top: 0px;
+ .btn.btn-primary.app-btn-primary.confirm-submit-button-browser,.btn.btn-secondary.app-btn-secondary.deny-submit-button-browser {
+  margin-bottom: 0px;
+ }
+ .kpmgicon-close::before {
+  font-size: 18px !important;
+  color: $gray-800 !important;
+ }
+}
+
+.browser-modal-footer {
+  padding-right: 10px !important;
+  float: right !important;
+}
+
+.browser-modal-footer.browser-custom {
+  margin: calc(var(--bs-modal-footer-gap)* 1) !important;
+  padding-bottom: 20px !important;
+}
+.row-ul-list-display
+{
+  padding-left: 1rem;
+}
+.note-warning{
+  font-style: italic;
+  padding-top: 12px;
+  color: $gray-800;
+}
+.note-warning:before {
+font-weight: bold;
+  content: "Note: ";
+ }
+ .browser-add-line-break{
+  white-space: pre-line;
+ }
+.browser-custom :not(.btn-check)+.btn:active {
+  border: 0!important;
+}
+
+
+.browser-btn {
+  font-size: 16px;
+  font-weight: 550;
+}
+
+.app-btn-browser {
+  vertical-align: middle;
+  position: relative;
+  height:38px;
+  margin-bottom: 0px !important;
+  //added line-height as the text inside the button is not aligned vetically in centre
+  line-height: 14px;
+  padding: 10px 20px 9px 15px;
+  background-color: #0078d4;
+  border: 3px solid #79b8e8 !important;
+  outline: 3px solid #80868a !important;
+  color: white;
+  &:active:focus {
+    box-shadow: none;
+  }
+}

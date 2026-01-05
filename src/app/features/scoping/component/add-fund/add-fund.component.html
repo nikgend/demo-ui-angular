@@ -1,0 +1,187 @@
+<!-- <app-custom-popup class="chk" (closingPopUp)='popUpClosed($event)' [enableBackdrop]='true'> -->
+  <!-- <div modalBody> -->
+    <!-- <div class="modal-header kpmg-modal-header">
+      <h4 class="modal-title">{{addFundTitle}}</h4>
+      <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="triggerClose()"></button> 
+        <button type="button" class="btn btn-icon kpmgicon-cross closeaddFundModel" data-bs-dismiss="modal" aria-label="Close"
+    (click)="triggerClose()"></button>
+    </div> -->
+    <div class="page-header"> 
+      <app-page-header pageHeader="{{'Add Fund' | alternateWorkflowLable}}" class="add-fund-header"></app-page-header>
+      <!-- <hr class="first-separator" /> -->
+      <app-engagement-details></app-engagement-details>
+    <div class="modal-body add-fund-form-wrapper">
+      <ng-container>
+        <div class="alert msgMargin alert-danger app-alert-box" role="alert" *ngIf='mandatoryFieldError'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{mandatoryMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("mandatoryError")'></button>
+        </div>
+        <div class="alert msgMargin alert-danger app-alert-box" role="alert" *ngIf='materialityErrObj'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          Materiality {{invalidVal}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("materialityErr")'></button>
+        </div>
+        <div class="alert msgMargin alert-danger app-alert-box" role="alert" *ngIf='performanceMaterialErrObj'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          Performance Materiality {{invalidVal}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("performanceMaterialErrs")'></button>
+        </div>
+        <div class="alert msgMargin alert-danger app-alert-box" role="alert" *ngIf='misstatementErrObj'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          Audit Misstatement Posting Threshold {{invalidVal}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("misstatementErr")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='showErorr'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{errorRespMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("error")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='fundNameError'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{fundNameErrorMessage | alternateWorkflowLable}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("fundNameError")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='minCharError'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{minCharErrorMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("minCharError")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='maxCharError'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{maxCharErrorMesage | alternateWorkflowLable}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("maxCharError")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='auditSignOffLess'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{auditSignOff.errorMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("auditSignOffLess")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='peDateLess'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{peDate.errorMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("peDateLess")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='pbDateLess'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{pbDate.errorMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("pbDateLess")'></button>
+        </div>
+        <div class="alert alert-danger app-alert-box" role="alert" *ngIf='limitError'>
+          <i class="kpmgicon-exclamation-triangle"></i>
+          {{amPmMaxErrorMessage}}
+          <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close" (click)='closeTheAlert("limitError")'></button>
+        </div>
+        
+        <ng-container *ngIf='showFields'>
+          <div class="row">
+            <div class="col-12 field" [ngClass]="fundName.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">{{'Fund Name' | alternateWorkflowLable}}</label>
+              <input class="kpmg-input" type="text" name="fundName" id="fundName" required [(ngModel)]="fundName.value" minlength="3" maxlength="200" title="" (change)="onFundNameChange($event)" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 field" [ngClass]="fundType.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">
+                {{'Type of Fund' | alternateWorkflowLable}}
+              </label>
+              <ejs-dropdownlist id='typeofFund' [dataSource]="addFundAllData['FundType']?.data" [(ngModel)]='fundType.value'  [fields]='dropDownDataFormat'  (change)='onTypeOfFundChange($event)' (close)="typeOfFundClose($event)" (open)="typeOfFundOpen($event)"></ejs-dropdownlist>
+              <span *ngIf="fundType.error" class="error-field">{{fundType.errorMessage}}</span>
+            </div>
+            <div class="col-3 field" [ngClass]="investmentType.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Type of Investments</label>
+              <ejs-multiselect id='typeOfInvestmentSelect' [dataSource]="addFundAllData['InvestmentType']?.data"  [fields]='dropDownDataFormat'  [mode]='mode' [placeholder]='placeholder' [showDropDownIcon]='true' [allowFiltering]='false' [(ngModel)]='investmentType.value' (change)='onInvestmentChange($event)' (close)="typeOfInvestmentSelectClose($event)" (open)="typeOfInvOpen($event)"></ejs-multiselect>
+              <span *ngIf='investmentType.error' class="error-field">{{investmentType.errorMessage}}</span>
+            </div>
+            <div class="col-3 field" [ngClass]="fundAdmin.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Administrator</label>
+              <ejs-dropdownlist id='fundAdministrator' [dataSource]="addFundAllData['FundAdministrators']?.data"  [fields]='dropDownDataFormat' [(ngModel)]='fundAdmin.value' (change)='onFundAdminChange($event)' (close)="fundAdminClose($event)" (open)="fundAdminOpen($event)"></ejs-dropdownlist>
+              <span *ngIf="fundAdmin.error" class="error-field">{{fundAdmin.errorMessage}}</span>
+            </div>
+            <div class="col-3 field" [ngClass]="brokerCusto.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Broker/Custodians</label>
+              <ejs-multiselect id='brokerCustodianSelect' [dataSource]="addFundAllData['BrokerCustodian']?.data" [fields]='dropDownDataFormat'  [mode]='mode' [placeholder]='placeholder' [showDropDownIcon]='true' [allowFiltering]='false' [(ngModel)]='brokerCusto.value' (change)='onBrokerCustodiansChange($event)' (close)="brokerCustodianSelectClose($event)" (open)="brokerCustoOpen($event)"></ejs-multiselect>
+              <span *ngIf="brokerCusto.error" class="error-field">{{brokerCusto.errorMessage}}</span>
+            </div>
+          </div>
+          <div class="row">        
+            <div class="col-3 field" [ngClass]="reportingCurrency.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Reporting Currency</label>
+              <ejs-dropdownlist id='reportingCurrency' [dataSource]="addFundAllData['Currency']?.data" 
+              [fields]='dropDownDataFormat'  [(ngModel)]="reportingCurrency.value" 
+              (change)='onReportingCurrencyChange($event)' (close)="reportingCurrencyClose($event)"
+               (open)="reportingCurrencyOpen($event)"></ejs-dropdownlist>
+              <span *ngIf="reportingCurrency.error" class="error-field">{{reportingCurrency.errorMessage}}</span>
+            </div>
+            <div class="col-3 field" [ngClass]="pbDate.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Period Begin Date</label>
+
+               <ejs-datepicker #periodBdate  id='periodBeginDate' [(ngModel)]="pbDate.value" (keypress)="allowOnlyDateValue($event)" (input)="formatDate($event)"
+               (blur)='dateValidation("begin_date")' format='MM/dd/yyyy' [strictMode]="false" [max] ='periodMaxDate' placeholder='MM/DD/YYYY'
+               (change)='onPeriodBeginDateChange($event)' (input)="formatDate($event); onDateInput($event, 'begin_date')"></ejs-datepicker>
+               
+              <span hidden *ngIf="pbDate.error" class="error-field">{{pbDate.errorMessage}}</span>
+            </div>
+            <div class="col-3 field" [ngClass]="peDate.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Period End Date</label>
+              
+              <ejs-datepicker #periodEdate  id='exampleFormControlInput1' [(ngModel)]="peDate.value" placeholder='MM/DD/YYYY' (input)="formatDate($event)"
+              (blur)='dateValidation("end_date")' format='MM/dd/yyyy' [strictMode]="true" [max]="periodMaxYear" (keypress)="allowOnlyDateValue($event)"
+              (change)='onPeriodEndDateChange($event)' (input)="formatDate($event); onDateInput($event, 'end_date')"></ejs-datepicker>
+
+              <span hidden *ngIf="peDate.error" class="error-field">{{peDate.errorMessage}}</span>
+            </div>
+            <div class="col-3 field" [ngClass]="auditSignOff.error ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Expected Audit Sign-Off Date</label>
+
+                <ejs-datepicker #auditSignOffDate  id='auditSignOff' [(ngModel)]="auditSignOff.value" placeholder='MM/DD/YYYY' (keypress)="allowOnlyDateValue($event)"
+                (blur)='dateValidation("auditsignoff_date")'  format='MM/dd/yyyy' [strictMode]="false" [min]="auditSignOffMinDate" [max]="periodMaxYear" (input)="formatDate($event)"
+              (change)='onAuditSignDateChange($event)' (input)="formatDate($event); onDateInput($event, 'auditsignoff_date')"></ejs-datepicker>
+              
+              <span hidden *ngIf="auditSignOff.error" class="error-field">{{auditSignOff.errorMessage}}</span>
+            </div>
+            <div class="col-3 field mb-0 numberInput" [ngClass]="materialityObj.error || materialityErrObj ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Materiality (Optional)</label>
+              <input class="kpmg-input" type="text" (paste)="blockPaste($event)" (keypress)="allowOnlyNumberandDecimalvalue($event)" name="materialityObj" id="materialityObj" [(ngModel)]="materialityObj.value" minlength="0" maxlength="200" title="" (change)="materialityChange($event)"
+              (input)= "materialityObj.value = formatCurrency(materialityObj.value)" />
+              <span hidden *ngIf="materialityErrObj" class="error-field">{{invalidVal}}</span>
+            </div>
+            <div class="col-3 field mb-0 numberInput" [ngClass]="performanceMaterial.error || performanceMaterialErrObj ? 'error-field' : '' ">
+              <label for="exampleFormControlInput1" class="form-label app-form-label">Performance Materiality (Optional)</label>
+              <input class="kpmg-input" type="text" (paste)="blockPaste($event)" (keypress)="allowOnlyNumberandDecimalvalue($event)"
+              name="performanceMaterial" id="performanceMaterial" [(ngModel)]="performanceMaterial.value" minlength="0" maxlength="200" title="" (change)="performanceMaterialityChange($event)" (input)= "performanceMaterial.value = formatCurrency(performanceMaterial.value)"/>
+              <span hidden *ngIf="performanceMaterialErrObj" class="error-field">{{invalidVal}}</span>
+            </div>
+            <div class="col-3 field mb-0 numberInput" [ngClass]="misstatementObj.error || misstatementErrObj ? 'error-field' : '' ">
+              <label style="width: 150%;" for="exampleFormControlInput1" class="form-label app-form-label">Audit Misstatement Posting Threshold (Optional)</label>
+              <input class="kpmg-input" type="text" (paste)="blockPaste($event)" (keypress)="allowOnlyNumberandDecimalvalue($event)" name="misstatementObj" id="misstatementObj" [(ngModel)]="misstatementObj.value"
+               minlength="0" maxlength="200" title="" (change)="auditMisstatChange($event)" (input)= "misstatementObj.value = formatCurrency(misstatementObj.value)"/>
+              <span hidden *ngIf="misstatementErrObj" class="error-field">{{invalidVal}}</span>
+            </div>
+          </div>
+          <div class="row" style="width: 100%;">
+            <hr class="last-separator" />
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <button class="btnBack pull-left btn btn-tertiary app-outline-tertiary" (click)="onBackNavigation($event, 'button')">Back</button>
+            </div>
+            <div class="field-form-submit col-9">
+              <button type="button" class="btn btn-primary app-btn-primary add-fund-submit-button" (click)="addFund()">Add</button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+
+  </div>
+<!-- </app-custom-popup> -->
+<div class="global-popup">
+    <custom-confiramtion-dialog *ngIf="showPopup" [deletModalTitle]="deletModalTitle"
+    [deleteModalMessage]="deleteModalMessage" (onIsUserConfirmed)="isUserConfired($event)" (onClosePopUp)="triggerCloseBtn()"></custom-confiramtion-dialog>
+
+    <browser-default-popup *ngIf="showBrowserPopup"
+      (onIsUserConfirmed)="isUserConfired($event)" (onClosePopUp)="triggerCloseBtn()">
+    </browser-default-popup>
+</div>

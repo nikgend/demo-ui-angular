@@ -1,0 +1,68 @@
+<div class="custom">
+
+
+<app-custom-popup (closingPopUp)="popUpClosed($event)" [IsSmaller]="widthFlag" [enableBackdrop]="true" >
+  <div modalBody  >
+    <div class="modal-header kpmg-modal-header" style="justify-content: space-between;">
+      <h4 class="modal-title">{{ deletModalTitle }}</h4>
+      <button
+          type="button" *ngIf="!specialBackExists"
+          class="btn kpmgicon-close custom-D-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="triggerCloseBtn()"
+        ></button>
+        <button *ngIf="specialBackExists"
+        type="button"
+        class="btn kpmgicon-close custom-D-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="triggerCloseBtnIcon()"
+      ></button>
+    </div>
+    <div class="modal-body" >
+      <ng-container>
+        <ng-container *ngIf="!htmlBody">
+          <p class="mb-2 add-line-break">
+            {{ deleteModalMessage }}
+          </p>
+          <span *ngIf="specialNoteExists" class="mb-2">
+           <p class="note-warning">{{noteMessage}}</p>
+          </span>
+            <ul class="selected-fund-row row-ul-list-display">
+              <li ngClass={{dynamicClassForList}} *ngFor="let item of customData">
+                  {{item}}
+              </li>
+            </ul>
+            <p class="mb-2 add-line-break" *ngIf="deletModalMainMessage === deleteModalMessage">
+              {{ deletModalConfirmMessage | alternateWorkflowLable }}
+            </p>
+        </ng-container>
+        <ng-content select="[modalBody]" *ngIf="htmlBody"></ng-content>
+      </ng-container>
+    </div>
+
+    <div class="modal-footer custom">
+
+      <button
+      type="button"
+      id="btn1" *ngIf="!isbuttonNoValue"
+      class="btn btn-secondary app-btn-secondary deny-submit-button"
+      (click)="triggerCloseBtn()"
+    >
+      {{ buttonNoValue }}
+    </button>
+
+      <button
+        type="button"
+        id="btn2"
+        class="btn btn-primary app-btn-primary confirm-submit-button"
+        (click)="onbtn2Click()"
+      >
+        {{ buttonYesValue }}
+      </button>
+     
+    </div>
+  </div>
+</app-custom-popup>
+</div>

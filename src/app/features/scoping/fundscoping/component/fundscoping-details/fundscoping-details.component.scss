@@ -1,0 +1,575 @@
+@import "src/app/styles/abstracts/_variables.scss";
+@import "src/app/styles/abstracts/_mixins.scss";
+
+.fsheader {
+  font: bold;
+}
+.btn-secondary {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: $kpmg-m-blue;
+  font-weight: 600;
+  background-color: $kpmg-gray-100;
+  border-color: $kpmg-gray-100;
+}
+.btn-check:focus + .btn,
+.btn:focus {
+  box-shadow: none;
+}
+.continueIcon {
+  line-height: unset !important;
+}
+.FundDetailContainer .btn {
+  font-family: Arial;
+  padding-top: 10px;
+  padding-bottom: 9px;
+  line-height: 16px;
+}
+.customgrid {
+  height: 20px;
+}
+.fc-custom-grid {
+  width: 103%;
+}
+.fundScopping {
+  text-align: right;
+}
+.rtnslectonbtn {
+  margin: 0 5px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 0px;
+  text-align: right;
+}
+.enablebutton {
+  background-color: blue;
+  color: white;
+  font-weight: 200px;
+}
+.btn {
+  &.fc-new-fund-link {
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+.kpmg-body-head {
+  color: $gray-800;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+.fc-custom-grid {
+  width: 103%;
+}
+.top-buffer {
+  margin-top: 1%;
+  margin-left: 1.15%;
+  font-weight: bold;
+}
+.fund-console-header {
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: $kpmg-gray-100;
+  margin-left: 2%;
+  margin-right: 20px;
+  text-align: right;
+  padding: 2px 2px 2px 2px;
+  .fc-col {
+    .kpmg-body-head {
+      display: inline-flex;
+      margin: 0 5px 0 0;
+    }
+    &.fc-btns {
+      .btn {
+        margin: 0 5px;
+        font-size: 13px;
+        font-weight: 600;
+        color: blue;
+      }
+      .kpmgicon-add-circle-outline .buttonIcon {
+        &:hover {
+          color: red;
+        }
+      }
+    }
+  }
+}
+.e-grid .e-gridcontent {
+  border: 0px solid white;
+}
+::ng-deep .e-grid .e-content {
+  @include scrollBar_HZ_VT();
+}
+.rtnslectonbtn {
+  margin: 0 5px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 0px;
+  .ErrorLabel {
+    color: red;
+    font-weight: bold;
+    bottom: 0px;
+    padding: 0px 0px 0px 30px;
+    text-align: left;
+  }
+  .btn {
+    text-align: right;
+  }
+}
+.label {
+  font-weight: 600px;
+}
+.addButon,
+.deleteButton {
+  text-decoration: none;
+  margin: auto;
+  color: $kpmg-md-blue;
+  padding-left: 0px;
+  padding-right: 0px;
+  &:hover {
+    color: $kpmg-blue;
+    .kpmgicon-add-circle-outline::before {
+      color: $kpmg-blue;
+    }
+    .kpmgicon-minus-circle-outline:before {
+      color: $kpmg-blue;
+    }
+  }
+}
+.buttonIcon {
+  font-size: 25px;
+  position: relative;
+  top: 5px;
+  font-weight: bolder;
+}
+.scoping-header .e-grid .e-gridcontent {
+  border: none !important;
+}
+#scopingHeader .e-gridcontent {
+  border: none !important;
+}
+.fundScopingCheckBox {
+  border: 1px solid black;
+  border-radius: 0px;
+}
+.fscopingHeader-label {
+  font-weight: bold;
+  font-size: 24px;
+}
+.scoping-groupname {
+  align-items: center;
+  padding: 0px 0 15px 0;
+  height: 20px;
+  .e-checkbox-wrapper {
+    .e-icons.e-frame {
+      border-radius: 2px;
+      font-size: 10px;
+      height: 25px;
+      line-height: 15px;
+      width: 25px;
+
+      &.e-check {
+        background-color: $kpmg-md-blue;
+        border-color: $gray-blue-600;
+      }
+      &:not(.e-check) {
+        border-color: $gray-blue-600;
+      }
+    }
+    input {
+      &:disabled {
+        ~ span.e-icons.e-frame {
+          &.e-check {
+            background-color: transparent;
+            border-color: $gray-400;
+            color: $gray-400;
+          }
+        }
+      }
+    }
+    .e-label {
+      color: $gray-800;
+      font-weight: 700;
+      font-size: 16px;
+    }
+  }
+}
+.routine-selection-btn {
+  color: #fff;
+}
+label {
+  color: $kpmg-gray-800;
+}
+.group-name-here-label {
+  font-weight: bold;
+}
+.addButon {
+  font-weight: normal;
+  margin-right: 30px;
+}
+.deleteButton {
+  font-weight: normal;
+  padding-right: 1px;
+}
+.question {
+  font-size: 26px;
+  margin-right: 10px;
+}
+/*
+::ng-deep .fundScopingDataView.e-grid {
+  .e-headercelldiv{
+    margin: -5px 15px -5px -15px !important;
+  }
+  .e-headercell{
+    padding: 15px 30px 15px 25px !important;
+  }
+  &.empty-data-table {
+    border-bottom: 1px solid #b0b5c1;
+    .e-gridheader {
+      border-bottom: none;
+    }
+    .e-gridcontent {
+      border: none;
+      .e-table {
+        tr.e-emptyrow {
+          background-color: transparent;
+          cursor: auto;
+          &:hover {
+            background-color: transparent;
+          }
+          td {
+            padding: 4px 15px 15px 15px;
+            text-align: center;
+            font-weight: 100;
+            color: $kpmg-gray-800;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+  .e-gridcontent {
+    border: none;
+  }
+  border-style: none;
+  border-bottom: 1px solid $kpmg-shadow;
+  :not(.static-row) .e-table:not(.static-row) {
+    tr {
+      &:nth-child(odd) {
+        background-color: $white;
+      }
+      &:hover {
+        background-color: $kpmg-aphaBlue;
+      }
+    }
+  }
+  .e-table:not(.static-row) tr:nth-child(even) {
+    background-color: $kpmg-aliceBlue-100;
+  }
+  .e-gridheader {
+    border-bottom: none;
+    border-top-color: $white;
+    border-top-width: 2px;
+  }
+  .e-headertext {
+    text-align: left;
+  }
+  table thead th:first-child {
+    padding-left: 16px;
+  }
+  thead {
+    height: 50px;
+  }
+}
+*/
+
+::ng-deep {
+  .app-checkbox {
+    border: 1px solid $gray-blue-600;
+    border-radius: 2px !important;
+    cursor: pointer;
+  }
+  .table-data-with-checkbox {
+    width: calc(100% - 25px);
+    padding-left: 5px;
+  }
+}
+.pt-3 {
+  padding-top: 15 !important;
+}
+.engLen {
+  margin-top: 5px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 100;
+}
+.engLen span {
+  font-size: 14px !important;
+}
+::ng-deep .e-grid .e-icon-filter::before {
+  content: "";
+  color: $kpmg-m-blue;
+  font-size: 15px; // VB
+  font-weight: bolder;
+  font-family: "KPMG-AuditSpire-Icon-Font";
+}
+::ng-deep .form-check-input {
+  height: 20px !important;
+  width: 20px !important;
+  border: 2px solid $gray-blue-600 !important;
+}
+::ng-deep .fundScoping-screen-sub-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+::ng-deep .fundScoping-dialog-box {
+  .modal-dialog {
+    max-width: 570px !important;
+  }
+  .modal-body {
+    p {
+      font-weight: normal !important;
+    }
+  }
+}
+::ng-deep .sub-titleB {
+  margin-bottom: 20px !important;
+}
+::ng-deep .team-manage-screen-sub-title {
+  margin-top: 10px !important;
+}
+::ng-deep .e-toast-container .e-toast .e-toast-message .e-toast-content {
+  padding: 20px 10px !important;
+}
+::ng-deep .e-toast.info-toast .e-toast {
+  width: 410px !important;
+  height: auto !important;
+  border: 1px solid $kpmg-m-blue !important;
+}
+::ng-deep ejs-toast.e-control.e-toast.e-lib.e-toast-container.e-toast-top-center.info-toast {
+  top: 0 !important;
+}
+::ng-deep .e-toast-container .e-toast .e-toast-message .e-toast-title:first-child {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+:host ::ng-deep .e-grid .e-gridheader tr th:last-child .e-filtermenudiv.e-icons.e-icon-filter {
+  display: none !important;
+}
+// scroll css
+::ng-deep .scoping-header {
+  @include scrollBarStyle();
+}
+::ng-deep .fund-scoping-details-container {
+  .e-multiselect.e-input-group .e-ddl-icon:hover {
+    color: unset !important;
+  }
+
+  .form-check-input {
+    vertical-align: middle;
+    height: 25px;
+    margin-bottom: 2.5px;
+  }
+  .table-data {
+    .fundNameDisplay {
+      margin-bottom: 0 !important;
+      vertical-align: middle !important;
+      padding-top: 0px !important;
+      display: -webkit-box; /* Required for line-clamp */
+      -webkit-line-clamp: 2; /* Limits text to two lines */
+      -webkit-box-orient: vertical; /* Required for line-clamp */
+      overflow: hidden; /* Hides overflowed text */
+      text-overflow: ellipsis; /* Adds ellipsis (...) */
+      white-space: normal; /* Allows text wrapping */
+      max-width: 100%; /* Ensures text wraps within the available space */
+    }
+  }
+  .data-each-row td {
+    padding-bottom: 6px !important;
+    padding-top: 5px !important;
+    &.fs-fundAdmin {
+      padding-top: 6px !important;
+    }
+    &.fs-fundName {
+      padding-top: 6px !important;
+    }
+    &.fs-fundType {
+      padding-top: 6px !important;
+    }
+  }
+}
+
+// ::ng-deep .bs-stepper-header .step-trigger .bs-stepper-label {
+//   padding-left: 10px;
+// }
+::ng-deep .FundDetailContainer .scoping-header {
+  .e-gridheader.e-lib.e-droppable {
+    padding-right: 0px !important;
+  }
+  .e-grid .e-icon-filter::before,
+  .e-grid .e-icon-filter.e-filtered::before,
+  .e-grid-menu .e-icon-filter::before,
+  .e-grid-menu .e-icon-filter.e-filtered::before {
+    content: "\e90d";
+  }
+  .e-filtered::before {
+    color: #00338d !important;
+  }
+  .e-gridcontent {
+    transform: translateZ(0);
+    .e-table {
+      tr.e-emptyrow {
+        td {
+          position: fixed;
+          left: 50%;
+          top: 45%;
+          transform: translateX(-50%);
+          font-family: Arial, Helvetica, sans-serif !important;
+          font-size: 16px !important;
+          font-weight: normal !important;
+          color: #444444 !important;
+        }
+      }
+    }
+  }
+  .e-dlg-content {
+    .e-flmenu-maindiv {
+      .e-flm_optrdiv {
+        .e-input-group-icon {
+          border: none !important;
+        }
+        .e-input-group-icon.e-ddl-icon {
+          right: unset !important;
+        }
+      }
+    }
+  }
+}
+button.btn.btn-primary.app-btn-primary.continueBtn {
+  background: $kpmg-gray-200;
+  border: 0;
+  color: $gray-800;
+  padding: 10px 20px 9px 20px;
+  display: flex;
+  &:hover {
+    background-color: $gray-blue-400;
+    color: $gray-800;
+  }
+  span {
+    position: relative;
+    left: 1px;
+  }
+  i {
+    position: relative;
+    left: 2px;
+  }
+}
+button.btn.btn-primary.app-btn-primary.continueBtn:disabled {
+  background: $kpmg-gray-200;
+  pointer-events: auto !important;
+  border: 0;
+  color: $kpmg-gray-600;
+  padding-top: 10px;
+  padding-bottom: 9px;
+  &:hover {
+    background: $gray-blue-400 !important;
+  }
+}
+button.btn.btn-primary.app-btn-primary.continueBtn:disabled span {
+  color: #a0a0a0;
+}
+
+button.btn.btn-primary.app-btn-primary.continueBtn .kpmgicon-chevron-right:before {
+  color: #444444;
+  vertical-align: bottom;
+}
+button.btn.btn-primary.app-btn-primary.continueBtn:disabled .kpmgicon-chevron-right:before {
+  color: #a0a0a0;
+  vertical-align: bottom;
+}
+button.btn.btn-primary.app-btn-primary.continueBtn span {
+  color: #444444;
+}
+.alertCs {
+  margin: 0px 0px 4px 0px !important;
+  .app-alert-box.alert {
+    margin-top: 0px;
+    width: 100%;
+    left: 0px;
+  }
+}
+::ng-deep .isSucceeded .e-grid .e-gridcontent tr:first-child td:first-child {
+  border-left: 2px solid #009a4a;
+}
+::ng-deep .isSucceeded .e-grid .e-gridcontent tr:first-child td:last-child {
+  border-right: 2px solid #009a4a;
+}
+::ng-deep .FundDetailContainer .e-grid .e-table .e-altrow {
+  height: 36px !important;
+}
+::ng-deep .FundDetailContainer .e-grid .e-table:not(.static-row) .data-each-row:nth-child(even) {
+  background-color: #f6f7f9;
+  height: 36px !important;
+}
+::ng-deep .fundScopingDataView .e-grid :not(.static-row) .e-table:not(.static-row) tr:nth-child(odd) {
+  background-color: #fff;
+  height: 36px !important;
+}
+::ng-deep .FundDetailContainer .e-grid .e-table .e-altrow {
+  background-color: #fff;
+  height: 36px !important;
+}
+:host ::ng-deep .e-grid .e-gridheader tr th:last-child {
+  .e-sortfilterdiv.e-icons::before {
+    color: transparent !important;
+  }
+}
+.fundScoping-dialog-box ::ng-deep .deny-submit-button {
+  margin-right: 20px;
+  width: 70px;
+}
+
+.fundScoping-dialog-box ::ng-deep .confirm-submit-button {
+  line-height: 0;
+}
+.errorMsgw {
+  position: relative;
+  list-style-type: none;
+  .success-update-msg {
+    line-height: 1.3;
+    margin-top: 2px;
+  }
+  .kpmgicon-check-circle::before {
+    position: absolute;
+    top: 10px;
+    -webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    -o-transform: rotate(20deg);
+  }
+  .kpmgicon-check-circle {
+    margin-right: 35px;
+  }
+  .btn-icon {
+    top: -2px;
+    right: 10px !important;
+  }
+  .btn-icon::before {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+}
+::ng-deep #scopingHeader .e-gridcontent .e-table tr.e-emptyrow td {
+  padding: 0 !important;
+}
+.alert-details{
+  display: grid;
+  grid-template-columns: 35px auto 35px !important;
+}
+.alertmsg {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #009a4a;
+  word-wrap: break-word;
+}

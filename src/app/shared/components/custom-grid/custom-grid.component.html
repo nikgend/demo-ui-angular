@@ -1,0 +1,671 @@
+<ng-template [ngIf]="UseFundScopingTemple === true">
+  <ejs-tooltip id="tooltip" target=".ctooltip" [mouseTrail]="true">
+    <ejs-grid *ngIf="isGridReadyToLoad" #grid [dataSource]="data" id="dataview" (dataBound)="dataBound()"
+      [ngClass]="UseFundConsoleTemple ? 'fundConsoleDataView' : 'fundScopingDataView' " [editSettings]="editSettings"
+      [allowSorting]="true" [allowMultiSorting]="true" [allowFiltering]="filterFlag" [filterSettings]='filterOptions'
+      [pageSettings]="initialPage" (rowSelected)="rowIsSelected($event)" (actionComplete)="actionEndHandler($event)"
+      (rowDataBound)="rowDataBound($event)" (queryCellInfo)="queryCellInfo($event)"
+      (dataStateChange)="onDataStateChanged($event)" [class]="data.length === 0 ? 'empty-data-table': '' "
+      (dataBound)="dataBoundHeadItem($event)" [allowResizing]='true' class="app-custom-grid-view">
+      <e-columns>
+        <e-column *ngFor="let column of columnsList" [field]="column.key" [headerText]="column.header"
+          [width]="column.width" [minWidth]="column.minWidth" [textAlign]="column.textAlign"
+          [headerTextAlign]="column.hederAlign" [visible]="column.visible" [type]="column.type" [format]="column.format"
+          class="ej-grid-column-style">
+          <ng-template #headerTemplate let-data *ngIf="column.isTootlipExist">
+            <span class="e-headertext">{{column.header}}</span>
+            <ejs-tooltip #tooltipinnericon [id]="'tooltipinnericon' + sanitizeHeader(column.header)" [content]="column.tooltipDescription | alternateWorkflowLable"
+              position="BottomCenter" [target]="'#targetgridheader' + sanitizeHeader(column.header)" tipPointerPosition='End' [mouseTrail]='true'>
+              <span class="moreInfoKpm" [id]="'targetgridheader' + sanitizeHeader(column.header)"></span>
+            </ejs-tooltip>
+          </ng-template>
+        </e-column>
+        <ng-container *ngIf="UseFundScopingTemple === true">
+          <ng-template #rowTemplate let-data>
+            <tr class="e-altrow data-each-row" [ngClass]="{'disabled-row': data.isFundInProgress}">
+              <td class="left fs-fundType">
+                <ng-container>
+                  <div class="table-data" [class.disable-fundGroup-dropdown]="data.engagementFundGroupStatus == 'Completed' || data.fundStatusId == 6"
+                    (dblclick)="!(data.engagementFundGroupStatus == 'Completed' || data.fundStatusId == 6) ? onFundGroupClick($event, data, data.index) : false">
+                    <div id="target" class="table-data" *ngIf="!showFundGroupSelect[data.index]">
+                      <div class="fundNameDisplay"> {{data.fundGroupName}} </div>
+                    <ng-container *ngIf="!data.fundGroupName">
+                      <span class="no-group-message">
+                        {{noGroupNames}}
+                      </span>
+                    </ng-container>
+                    </div>
+                    <div *ngIf="showFundGroupSelect[data.index]" class="dropdown-container">
+                      <div class="dropdown-header" (click)="toggleDropdown()">
+                         <span class="dropdown-value">{{ data.fundGroupName || dropdownPlaceholder }}</span>
+                         <span class="clearSpan" *ngIf="data.fundGroupName">
+                          <i class="kpmgicon-close customClass-clear" (click)="removeFundGroup($event, data, data.index)"></i>
+                         </span>
+                         <span class="dropdown-arrow"></span>
+                      </div>
+                      <div class="dropdown-body" *ngIf="dropdownOpen">
+                        <div class="add-item-row">
+                          <input
+                                type="text"
+                                [(ngModel)]="newOption"
+                                [maxlength]="maxLength"
+                                (keydown.enter)="addOption(data, data.index)"
+                                (keypress)="onKeyPress($event)"
+                                placeholder="Add New"
+                                [class.invalid]="isInvalid"
+                                (input) = "onInputChange()"
+                              />
+                          <button type="button" class="btn btn-link addButon" (click)="addOption(data, data.index)">
+                            <i class="kpmgicon-add-circle-outline buttonIcon"></i>
+                          </button>
+                        </div>
+                        <div class="error" *ngIf="error || !engagementFundGroups.length">{{ error }}</div>
+                        <div class="dropdown-item"
+                                *ngFor="let opt of engagementFundGroups"
+                                [class.disabled]="opt['isFundGroupDisabled']"
+                                (click)="!opt['isFundGroupDisabled'] && selectOption(opt, data, data.index)"
+                                [ngClass]="{'selected-option': data.fundGroupName === opt['fundGroupName']}">
+                            {{ opt['fundGroupName'] }}
+                        </div>
+                      </div>
+                    </div>   
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fs-fundName">
+                <ng-container>
+                  <div class="table-data" [ngClass]="editFundErrorStatus.error ? 'error-field' : '' "
+                    (dblclick)="(data.isFundRollForwarded && data.fundStatusId < 3) || (!data.isFundRollForwarded && data.fundStatusId < 2) ? onFundNameClick($event, data, data.index) : false">
+                    <div class="table-data table-data-flex"  *ngIf="!showFundName[data.index]">
+                      <div  class="fundNameDisplay"> {{ data.fundName }} </div>
+                      <div class="margin-left-auto">
+                        <ejs-progressbar *ngIf="data.isFundInProgress"  progressColor="#009A4A"
+                            [id]="data.analysisId" type='Circular' height='44' width="44" [value]=80
+                            [animation]="animation" [isIndeterminate]='true'></ejs-progressbar>
+                          </div>
+                    </div>
+                    <input type="text" #fundNameEdit *ngIf="showFundName[data.index]"
+                      (change)="saveFundName($event, data, data.index)" minlength="3" maxlength="200"
+                      class="editInputStructure edit-fund-input-fields" [value]="data.fundName" />
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fund-type-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data iconCSS">
+                      <i [ngClass]="statusIcons[data.fundStatusName]"></i>
+                      {{data.fundStatusName}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fund-type-label fs-fundType">
+                <ng-container>
+                  <div class="table-data"
+                    (dblclick)="data.fundStatusId < 2 ? onFundTypeClick($event, data, data.index) : false">
+                    <div class="table-data" *ngIf="!showFundTypeSelect[data.index]">
+                      {{data.fundType}}
+                    </div>
+                    <ejs-dropdownlist #fundType *ngIf="showFundTypeSelect[data.index]"
+                      [fields]="multiSelectField" [dataSource]="fundTypeData" class="edit-fund-input-fields"
+                      [(ngModel)]="selectedFundType" (change)="onFundTypeChange(data,$event)"
+                      (blur)="closeEachFieldItem(data.index, 'fundTypeId')"
+                      (close)="closeEachFieldItem(data.index, 'fundTypeId')"
+                      (open)="onFundTypeOpen(data.index, 'fundType')" [showClearButton]="false">
+                    </ejs-dropdownlist>
+                  </div>
+                </ng-container>
+              </td>
+
+              <td class="left fs-invstType">
+                <div class="float-container"
+                  (dblclick)="(data.isFundRollForwarded && data.fundStatusId < 3) || (!data.isFundRollForwarded && data.fundStatusId < 2) ? investmentTypeClick($event, data, data.index) : false"
+                  [ngClass]="editFundErrorStatus.error ? 'error-field' : '' ">
+                  <ng-container *ngIf="!showInvestMultiSelect[data.index]">
+                    <ng-container *ngIf="data.invstTypeCount === 1">
+                      <div class="float-childtext">
+                        <div class="table-data">
+                          {{data.investmentType}}
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="data.invstTypeCount > 1">
+                      <div class="float-childtext multiple-values-text">
+                        <div class="table-data">
+                          {{display}}
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="data.invstTypeCount < 10 && data.invstTypeCount > 1">
+                      <ejs-tooltip content="{{data.investmentType.join(', ')}}" target=".e-info" position="BottomCenter"
+                        tipPointerPosition='Middle'>
+                        <div class="float-child">
+                          <div class="numberCircle e-info" title="{{data.investmentType.join(', ')}}">
+                            {{count}}{{ data.invstTypeCount }}
+                          </div>
+                        </div>
+                      </ejs-tooltip>
+                    </ng-container>
+                    <ng-container *ngIf="data.invstTypeCount >= 10">
+                      <ejs-tooltip content="{{data.investmentType.join(', ')}}" target=".e-info" position="BottomCenter"
+                        tipPointerPosition='Middle'>
+                        <div class="float-child">
+                          <div class="numberCircle e-info" title="{{data.investmentType.join(', ')}}">
+                            {{ data.invstTypeCount }}
+                          </div>
+                        </div>
+                      </ejs-tooltip>
+                    </ng-container>
+                  </ng-container>
+                  <ejs-multiselect id="investmentTypeList" *ngIf="showInvestMultiSelect[data.index]" #investSelect
+                    [mode]="mode" [dataSource]="investData" [fields]="multiSelectField" [allowFiltering]='false'
+                    [(ngModel)]="investmentSelected" [showDropDownIcon]='true'
+                    class="edit-fund-input-fields edit-fund-multiselect" [showClearButton]="true"
+                    (change)="onInvestmentTypeChange($event, data)" (blur)="closeInvestmentType(data.index)"
+                    (open)="onInvSelectOpen(data.index, 'investmentTypeList')">
+                  </ejs-multiselect>
+                </div>
+              </td>
+              <td class="left fs-fundAdmin">
+                <ng-container>
+                  <div class="float-childtxt"
+                    (dblclick)="(data.isFundRollForwarded && data.fundStatusId < 3) || (!data.isFundRollForwarded && data.fundStatusId < 2) ? onFundAdminClick(data, data.index) : false">
+                    <div class="table-data" *ngIf="!showFundAdminSelect[data.index]">
+                      {{data.fundAdminName}}
+                    </div>
+                    <ejs-dropdownlist id="fundAdminList" #fundAdmin *ngIf="showFundAdminSelect[data.index]"
+                      [fields]="multiSelectField" class="edit-fund-input-fields" [dataSource]="fundAdminData"
+                      [(ngModel)]="selectedFundAdmin" [showClearButton]="false"
+                      (change)="onFundAdminChange(data,$event)" (close)="onfundADminSelectClose(data.index)"
+                      (blur)="closeEachFieldItem(data.index, 'fundAdminId')"
+                      (open)="onFundAdminOpen(data.index, 'fundAdminList')">
+                    </ejs-dropdownlist>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fs-broker" (dblclick)="onDoubleClick(data, data.index)"
+                [ngClass]="editFundErrorStatus.error ? 'error-field' : '' ">
+                <div class="float-container" style="padding-left: 0px">
+                  <ng-container *ngIf="!showMultiSelect[data.index]">
+                    <ng-container *ngIf="data.brokerCustoCount === 1">
+                      <div class="float-childtext">
+                        <div class="table-data">
+                          {{data.brokerCustodianName}}
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="data.brokerCustoCount > 1">
+                      <div class="float-childtext multiple-values-text">
+                        <div class="table-data">
+                          {{display}}
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="data.brokerCustoCount >= 10">
+                      <ejs-tooltip content="{{data.brokerCustodianName.join(', ')}}" target=".e-info"
+                        position="BottomCenter" tipPointerPosition='Middle'>
+                        <div class="float-child">
+                          <div class="numberCircle e-info">
+                            {{data.brokerCustoCount}}
+                          </div>
+                        </div>
+                      </ejs-tooltip>
+                    </ng-container>
+                    <ng-container *ngIf="data.brokerCustoCount < 10 && data.brokerCustoCount > 1">
+                      <ejs-tooltip content="{{data.brokerCustodianName.join(', ')}}" target=".e-info"
+                        position="BottomCenter" tipPointerPosition='Middle'>
+                        <div class="float-child">
+                          <div class="numberCircle e-info" title="{{data.brokerCustodianName.join(', ')}}">
+                            {{count}}{{ data.brokerCustoCount }}
+                          </div>
+                        </div>
+                      </ejs-tooltip>
+                    </ng-container>
+                  </ng-container>
+                  <ejs-multiselect *ngIf="showMultiSelect[data.index]" id="brokerCustoSelect" #brokerCustoSelect
+                    [mode]="mode" class="edit-fund-multiselect edit-fund-input-fields" [dataSource]="brokCustData"
+                    [fields]="multiSelectField" [allowFiltering]='false' [showDropDownIcon]='true'
+                    [showClearButton]="true" [(ngModel)]="brokCustoSelected"
+                    (open)="onBrokerCustodianOpen(data.index, 'brokerCustoSelect')"
+                    (change)="onbrokerCustodianNameChange(data,$event)" (blur)="closeBrokerCustodianField(data.index)">
+                  </ejs-multiselect>
+                </div>
+              </td>
+              <td class="left fs-currency">
+                <ng-container>
+                  <div class="table-data" (dblclick)="onCurrencyCodeClick(data, data.index)">
+                    <div class="table-data" *ngIf="!showCurrencyCodeSelct[data.index]">
+                      {{(data.currencyCode)}}
+                    </div>
+                    <ejs-dropdownlist *ngIf="showCurrencyCodeSelct[data.index]" #currencyCode
+                      [fields]="multiSelectField" [dataSource]="currencyData" [(ngModel)]="selectedCurrency"
+                      class="edit-fund-input-fields" (change)="onCurrencyCodeChange(data,$event)"
+                      (blur)="closeEachFieldItem(data.index, 'currencycode')">
+                    </ejs-dropdownlist>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fs-pstartDate">
+                <ng-container>
+                  <div class="table-data" (dblclick)="onPeriodStartDateClick(data, data.index)"
+                    [ngClass]="(editFundErrorStatus.error || periodStartDate?.nativeElement?.value.length === 0) ? 'error-field' : '' ">
+                    <div class="table-data" *ngIf="!showPeriodStartDate[data.index]">
+                      <p class="fundClip"> {{ data.periodStartDate | date : 'MM/dd/yyyy' }} </p>
+                    </div>
+                    <input #periodStartDate id="fsPstartDate" type="date" *ngIf="showPeriodStartDate[data.index]"
+                      [value]="getFormattedDate(data.periodStartDate)" [max]="periodBeginMax[data.index]"
+                      (blur)="savePeriodStartDate($event, data)"
+                      class="form-control kpmg-input kpmgicon-calender input-date editInputStructure" />
+                  </div>
+                </ng-container>
+
+              </td>
+              <td class="left fs-pEndDate">
+                <ng-container>
+                  <div class="table-data" (dblclick)="onPeriodEndDateClick(data, data.index)"
+                    [ngClass]="(editFundErrorStatus.error || periodEndDate?.nativeElement?.value.length === 0) ? 'error-field' : '' ">
+                    <div class="table-data" *ngIf="!showPeriodEndDate[data.index]">
+                      <p class="fundClip"> {{ data.periodEndDate | date : 'MM/dd/yyyy' }} </p>
+                    </div>
+                    <input #periodEndDate id="fsPEndDate" type="date" *ngIf="showPeriodEndDate[data.index]"
+                      [value]="getFormattedDate(data.periodEndDate)" [max]="auditMaxDate[data.index]"
+                      [min]="setPeriodMinDates[data.index]"
+                      (blur)="savePeriodEndDate($event, data)"
+                      class="form-control kpmg-input kpmgicon-calender input-date editInputStructure" />
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fs-auditSign">
+                <ng-container>
+                  <div class="table-data"
+                    [ngClass]="(editFundErrorStatus.error || expectedAuditSignOffDate?.nativeElement?.value.length === 0) ? 'error-field' : '' "
+                    (dblclick)="onAuditSignOffDateClick(data, data.index)">
+                    <div class="table-data" *ngIf="!showAuditSignOff[data.index]">
+                      <p class="fundClip"> {{ data.expectedAuditSignOffDate | date : 'MM/dd/yyyy' }} </p>
+                    </div>
+                    <input #expectedAuditSignOffDate type="date" id="fsAudiSignInput"
+                      class="form-control kpmg-input kpmgicon-calender input-date" *ngIf="showAuditSignOff[data.index]"
+                      [value]="getFormattedDate(data.expectedAuditSignOffDate)" max="9999-12-31"
+                      [min]="auditMinDate[data.index]" (blur)="saveAuditSignOff($event, data)" />
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left" (dblclick)="onMaterialityClick(data, data.index)">
+                <ng-container>
+                  <div class="table-data" [ngClass]="editFundErrorStatus.error ? 'error-field' : '' ">
+                    <div class="table-data" *ngIf="!showMateriality[data.index]">
+                      <p class="hide-null-value fundClip" *ngIf="data.materiality === null">.</p>
+                      <p class="fundClip" *ngIf="data.materiality || data.materiality === 0">{{data.currencyCode}}
+                        {{data.materiality | currency : '': '' }} </p>
+                    </div>
+                    <input #materialityEdit class="materialityInputField" type="number"
+                      *ngIf="showMateriality[data.index]" [value]="data.materiality" [max]="amPmMax"
+                      (change)="saveMateriality($event, data)"
+                      class="form-control kpmg-input input-date editInputStructure numberField saveMateriality"
+                      (paste)="blockPaste($event)" (keypress)="onMaterialityKeyDown($event, data.index)" />
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left" (dblclick)="onPMClick(data, data.index)">
+                <ng-container>
+                  <div class="table-data" [ngClass]="editFundErrorStatus.error ? 'error-field' : '' ">
+                    <div class="table-data" *ngIf="!showPm[data.index]">
+                      <p class="hide-null-value fundClip" *ngIf="data.performanceMateriality === null">.</p>
+                      <p class="fundClip" *ngIf="data.performanceMateriality  || data.performanceMateriality === 0">
+                        {{data.currencyCode}} {{ data.performanceMateriality | currency : '': ''}} </p>
+                    </div>
+                    <input #pmEdit type="number" *ngIf="showPm[data.index]" [value]="data.performanceMateriality"
+                      [max]="amPmMax" (paste)="blockPaste($event)" (change)="savePM($event, data)"
+                      class="editInputStructure numberField savePM" (keypress)="onPmKeyDown($event, data.index)" />
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left" (dblclick)="onAmptClick(data, data.index)">
+                <ng-container>
+                  <div class="table-data" [ngClass]="editFundErrorStatus.error ? 'error-field' : '' ">
+                    <div class="table-data" *ngIf="!showAmpt[data.index]">
+                      <p class="hide-null-value" *ngIf="data.auditMisstatementPostingThreshold == null">.</p>
+                      <p class="fundClip"
+                        *ngIf="data.auditMisstatementPostingThreshold || data.auditMisstatementPostingThreshold == 0">
+                        {{data.currencyCode}} {{ data.auditMisstatementPostingThreshold | currency : '': '' }} </p>
+                    </div>
+                    <input type="number" #datAmpt *ngIf="showAmpt[data.index]" [max]="amPmMax"
+                      (change)="saveAMPT($event, data)" minlength="3" maxlength="200"
+                      class="editInputStructure numberField" class="editInputStructure numberField saveAMPT"
+                      [value]="data.auditMisstatementPostingThreshold" (paste)="blockPaste($event)"
+                      (keypress)="onAmptKeyDown($event, data.index)" />
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fund-type-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      <input class="form-check-input app-checkbox" type="checkbox"  [value]="data.analysisId" [(ngModel)]="data.IsSelected"
+                      (change)="onCheckboxChange($event)" id="{{ data.analysisId }}" [disabled]="data.fundStatusName === 'Closed out' ? true : false" />
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+        </ng-container>
+      </e-columns>
+    </ejs-grid>
+  </ejs-tooltip>
+  <div class="fundScoping-dialog-box">
+    <custom-confiramtion-dialog *ngIf="showPopup" class="custom-dialog" [widthFlag]="1" [deletModalTitle]="popupModalTitle"
+      [deleteModalMessage]="popupModalMessage" [customData]="selectedFunNameList" (onClosePopUp)="triggerCloseBtn()"
+      [dynamicClassForList]="dynamicClassForList" (onIsUserConfirmed)="isUserConfired($event)"></custom-confiramtion-dialog>
+  </div>
+</ng-template>
+
+
+<ng-template [ngIf]="!UseFundScopingTemple">
+  <ejs-tooltip id="tooltip" target=".ctooltip">
+    <ejs-grid #grid [dataSource]="data" id="dataview"
+      [editSettings]="editSettings"
+      [ngClass]="{'data-loaded': data.length > 0, 'fundConsoleDataView': UseFundConsoleTemple, 'fundScopingDataView' : !UseFundConsoleTemple }"
+      [allowSorting]="true" [allowMultiSorting]="true" [allowFiltering]="filterFlag" [filterSettings]='filterOptions'
+      [pageSettings]="initialPage" (rowSelected)="rowIsSelected($event)" (actionComplete)="actionEndHandler($event)"
+      (rowDataBound)="rowDataBound($event)" (queryCellInfo)="queryCellInfo($event)"
+      (dataStateChange)="onDataStateChanged($event)" [class]="data.length === 0 ? 'empty-data-table': '' "
+      (dataBound)="dataBoundHeadItem($event)" [allowResizing]='true' [sortSettings]='sortOptionsforgrid' class="app-custom-grid-view"
+      :allowTextWrap="true" :textWrapSettings="{ wrapMode: 'Header' }">      
+      <e-columns>
+        <e-column *ngFor="let column of columnsList" [field]="column.key" [headerText]="column.header"
+            [width]="(UseFundConsoleTemple === true || isViewEngagement === true) ? column.width : ''" [minWidth]="column.minWidth" [textAlign]="column.textAlign"
+            [headerTextAlign]="column.hederAlign" [visible]="column.visible" [type]="column.type"
+            [format]="column.format" [allowFiltering]="column.key === 'action' ? false : true" [class]="isViewEngagement === true ? column.header : ''">
+        </e-column>
+        <ng-container *ngIf="UseFundConsoleTemple===true">
+          <ng-template #rowTemplate let-data>
+            <tr [ngClass]="dashboardAccordion[data.index] ? 'expanded-row-bgcolor' : ''" class="e-altrow data-each-row">
+
+              <td class="left engagement-name">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      {{data.engagementName}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fund-name-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      {{data.fundName}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left fund-type-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      {{data.fundType}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left">
+                <div class="float-container">
+                  <ng-container *ngIf="data.invstTypeCount === 1">
+                    <div class="float-childtext">
+                      <div class="table-data">
+                        {{data.investmentType}}
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="data.invstTypeCount > 1">
+                    <div class="float-childtext multiple-values-text">
+                      <div class="table-data">
+                        {{display}}
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="data.invstTypeCount >= 10">
+                    <ejs-tooltip content="{{data.investmentType.join(', ')}}" target=".e-info" position="BottomCenter"
+                    tipPointerPosition='Middle'>
+                    <div class="float-child">
+                      <div class="numberCircle e-info" title="{{data.investmentType.join(', ')}}">
+                        {{ data.invstTypeCount }}
+                      </div>
+                    </div>
+                  </ejs-tooltip>
+                  </ng-container>
+                  <ng-container *ngIf="data.invstTypeCount < 10 && data.invstTypeCount > 1">
+                    <ejs-tooltip content="{{data.investmentType.join(', ')}}" target=".e-info" position="BottomCenter"
+                      tipPointerPosition='Middle'>
+                      <div class="float-child">
+                        <div class="numberCircle e-info" title="{{data.investmentType.join(', ')}}">
+                          {{count}}{{ data.invstTypeCount }}
+                        </div>
+                      </div>
+                    </ejs-tooltip>
+                  </ng-container>
+                </div>
+              </td>
+
+              <td class="left">
+                <ng-container>
+                  <div class="float-childtxt">
+                    <div class="table-data">
+                      {{data.fundAdminName}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left">
+                <div class="float-container">
+                  <ng-container *ngIf="data.brokerCustoCount === 1">
+                    <div class="float-childtext">
+                      <div class="table-data">
+                        {{data.brokerCustodianName}}
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="data.brokerCustoCount > 1">
+                    <div class="float-childtext multiple-values-text">
+                      <div class="table-data">
+                        {{display}}
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="data.brokerCustoCount >= 10">
+                    <ejs-tooltip content="{{data.brokerCustodianName.join(', ')}}" target=".e-info"
+                        position="BottomCenter" tipPointerPosition='Middle'>
+                        <div class="float-child">
+                          <div class="numberCircle e-info">
+                            {{data.brokerCustoCount}}
+                          </div>
+                        </div>
+                      </ejs-tooltip>
+                  </ng-container>
+                  <ng-container *ngIf="data.brokerCustoCount < 10 && data.brokerCustoCount > 1">
+                    <ejs-tooltip content="{{data.brokerCustodianName.join(', ')}}" target=".e-info"
+                      position="BottomCenter" tipPointerPosition='Middle'>
+                      <div class="float-child">
+                        <div class="numberCircle e-info">
+                          {{count}}{{data.brokerCustoCount}}
+                        </div>
+                      </div>
+                    </ejs-tooltip>
+                  </ng-container>
+                </div>
+              </td>
+              <td class="left currency-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      {{(data.currencyCode)}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left startDate-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      {{data.periodStartDate| date : 'MM/dd/yyyy'}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left endDate-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data">
+                      {{data.periodEndDate | date : 'MM/dd/yyyy'}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td>
+                <div class="left child-rows-container">
+                  <div class="child-button">
+                    <button class="btn app-btn-primary"
+                      [ngClass]="!data.screenTieOut ? 'btn-disabled' : ''" (click)="goToAnalysis(data)"><span>Go to Analysis</span></button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="isViewEngagement===true">
+          <ng-template #rowTemplate let-data>
+            <tr [ngClass]="data.show ? 'expanded-row-bgcolor' : ''" class="e-altrow data-each-row">
+              <td class="left fund-name-label">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="use-flex" position='top'>
+                      <span #toggleButton [ngClass]="{'mar-left-tmp' : (selectedrowId === data.engagementName) &&  isMenuOpen}"> <i
+                          [class]="globalIcon.iconClass"
+                          [ngClass]="{'selectedelipse' : (selectedrowId === data.engagementName) &&  isMenuOpen}"
+                          (click)='openModal($event,data.engagementName)'> </i>
+                      </span>
+                      <div #menu *ngIf="isMenuOpen">
+                      <span [ngClass]="{'elipseTmp' : (selectedrowId === data.engagementName) &&  isMenuOpen}"
+                        class="mar-left">
+                        <div *ngIf="(selectedrowId === data.engagementName) &&  isMenuOpen" class="changeView">
+                          <!-- Disable Roll-Forward feature -->
+                          <!-- NOTE : We are disabling the Roll-Forward functionality in V3. SO that's why we have commented the below code.
+                          So Do not not remove the below code. -->
+                          <div class="change-view-edit" *ngIf="data.engagementStatus !== 'Closed Out' && data.engagementStatus !== 'Roll-Forward Complete' && data.engagementStatus !== 'Roll-Forward In Progress'">
+                            <span class="popText scoping-link" (click)="openEditEngagement(data)">Edit</span>                            
+                            <span class="popText" (click)="openCloseOut(data)">Close out</span>
+                            <!-- NOTE : Once we enable the Roll-Forward functionality in V4.0 so uncomment the below code.-->
+                            <span class="popText close-out " (click)="openRollForwardEngagement(data)">Roll-Forward</span>                            
+                          </div>
+                          <div class="change-view-edit" *ngIf="data.engagementStatus === 'Closed Out' || data.engagementStatus === 'Roll-Forward Complete'">
+                            <span class="popText scoping-link" [ngClass]="{'disabled': data.engagementStatus === 'Closed Out' || data.engagementStatus === 'Roll-Forward Complete'}">Edit</span>
+                            <span class="popText disabled" [ngClass]="{'disabled': data.engagementStatus === 'Closed Out' || data.engagementStatus === 'Roll-Forward Complete'}">Close out</span>
+                            <!-- NOTE : Once we enable the Roll-Forward functionality in V4.0 so uncomment the below code.-->
+                            <span class="popText close-out" (click)="openRollForwardEngagement(data)">Roll-Forward</span>
+                          </div>
+                          <!-- NOTE : Once we enable the Roll-Forward functionality in V4.0 so uncomment the below code.-->
+                          <div class="change-view-edit" *ngIf="data.engagementStatus === 'Roll-Forward In Progress'">
+                            <span class="popText scoping-link" [ngClass]="{'disabled': data.engagementStatus === 'Roll-Forward In Progress'}">Edit</span>
+                            <span class="popText disabled" [ngClass]="{'disabled': data.engagementStatus === 'Roll-Forward In Progress'}">Close out</span>
+                            <span class="popText close-out" [ngClass]="{'disabled': data.engagementStatus === 'Roll-Forward In Progress'}">Roll-Forward</span>
+                          </div>
+                        </div>
+                      </span>
+                    </div>
+                      <span class="stringlength fst" (click)="viewEngagement(data)">{{data.engagementName}}</span>
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left nopoint">
+                <ng-container>
+                  <div class="float-childtxt">
+                    <div class="table-data">
+                      {{data.engagementCode}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left  nopoint">
+                <span class="stringlength">{{data.regionDisplayName}}</span>
+              </td>
+
+              <td class=" nopoint">
+                <span class="stringlength ">{{data.engagementPartner}}</span>
+              </td>
+              <td class="left nopoint">
+                <span class="stringlength ">{{data.engagementManager}}</span>
+              </td>
+              <td class="left currency-label nopoint">
+                {{data.periodEndDate | date : 'MM/dd/yyyy'}}
+              </td>
+
+              <td class="left nopoint">
+                {{data.engagementType}}
+              </td>
+
+              <td class="left nopoint">
+                {{data.engagementStatus}}
+              </td>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="teamManagementTemplate === true">      
+          <ng-template #rowTemplate let-data>
+            <tr class="e-altrow data-each-row" [ngClass]="(isScrollOn > 10) ? 'onScroll' : 'onNoScroll'" >
+              <td class="left">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data userid-column-data">
+                      {{data.userId}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data emailAddress-column-data">
+                      {{data.emailAddress}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data firstname-column-data">
+                      {{data.firstName}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left">
+                <ng-container>
+                  <div class="table-data">
+                    <div class="table-data lastname-column-data">
+                      {{data.lastName}}
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="left">
+                <ng-container>
+                  <div class="use-flex active-inactive-column-data">
+                    <label [ngClass]="data.isActive === 'Active' ? 'highlightActiveState ' : ''" 
+                      for="switch1">Active</label>
+                    <ejs-switch [checked]="data.isActive !== 'Active'" [disabled]="data.selfUser || dataLength <= 1" (change)="onIndividualSwitchChange(data,$event)"
+                      class="me-2 mt-1 main-active-inactive-switch" id="switch1"></ejs-switch>     
+                    <label [ngClass]="data.isActive === 'InActive' ? 'highlightActiveState ' : ''"
+                      for="switch1">Inactive</label>
+                  </div>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+        </ng-container>
+      </e-columns>      
+    </ejs-grid>
+  </ejs-tooltip>
+</ng-template>

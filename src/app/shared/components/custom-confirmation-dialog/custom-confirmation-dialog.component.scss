@@ -1,0 +1,125 @@
+@import "src/app/styles/abstracts/variables";
+@import "src/app/styles/abstracts/mixins";
+
+.kpmg-modal-header {
+  background-color: $gray-100;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 19px 20px;
+  height: 60px;
+  .modal-title {
+    font-family: $kpmg-font-family;
+    font-size: 16px;
+    // color: $gray-900;
+    color: $gray-800;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+  .btn-close {
+    height: 18px;
+    padding: 0 6px;
+    width: 18px;
+    color: $kpmg-gray-800;
+  }
+}
+.modal-body {
+  padding: 30px 20px 0;
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+    .col-12,
+    .col-3 {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+
+.confirm-submit-button {
+  vertical-align: middle;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.deny-submit-button {
+  vertical-align: middle;
+  border: 0px;
+  padding: 10px 20px 9px 20px;
+  line-height: 1;
+  color: #444444;
+  margin-right:20px;
+  &:hover {
+    background: #b2b9C2;
+    color: #444444;
+  }
+}
+
+.custom.model .modal-dialog {  
+  max-width: none;  
+}
+
+
+.selected-fund-row {   
+  // margin: 1px;
+  height: auto;
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: auto;
+  //padding-left: 10px;
+  
+// ol, ul {
+//     padding-left: 1rem;
+// }
+  @include scrollBarStyle();
+
+  // li {
+  //   // padding-top: 0px;
+  //   // padding-bottom: 0px;   
+  // }
+  .text-align-delete-fund-modal{
+    padding-top: 0px;
+    padding-bottom: 0px;  
+  }
+  .text-align-uploadDup-fund-modal{
+    padding-top: 20px;
+    padding-bottom: 10px;  
+  }
+}
+
+.custom {
+ border-top: 0px;
+ padding-right: 20px;
+ padding-left: 20px;
+ .btn.btn-primary.app-btn-primary.confirm-submit-button,.btn.btn-secondary.app-btn-secondary.deny-submit-button {
+  margin-bottom: 0px;
+ }
+ .kpmgicon-close::before {
+  font-size: 18px !important;
+  color: $gray-800 !important;
+ }
+}
+.modal-footer.custom {
+  padding-bottom: 20px !important;
+}
+.row-ul-list-display
+{
+  padding-left: 1rem;
+}
+.note-warning{
+  font-style: italic;
+  padding-top: 12px;
+  color: $gray-800;
+}
+.note-warning:before {
+font-weight: bold;
+  content: "Note: ";
+ }
+ .add-line-break{
+  white-space: pre-line;
+ }
+.custom-D-close {
+  padding: 0 ;
+}
+.custom :not(.btn-check)+.btn:active {
+  border: 0!important;
+}

@@ -1,0 +1,40 @@
+
+<div class="main-block engagementWrapper">
+  <div class="currenteng">
+    <h1 class="heading-font">Engagement Setup</h1>    
+  </div>
+</div>
+
+<div class="row engagement-row">
+  <div class="col-6">
+    <h1 class="headingSub-font">Engagements</h1>
+  </div>
+</div>
+
+<div class="row engagement-search-padd">
+  <div class="col-6 d-flex flex-start" id="analysisNotesearchId">
+    <app-search-bar (onClearClicked)="clearSerchValue()" (searchcriteria)="searchKeyword($event)"
+        (searchResult)="getSearchResult($event)"></app-search-bar>
+  </div>
+</div>
+
+
+<app-alert-info [showInforAlert]="showEngagementAccessError" [showInfoAlertMessage]="engagementAccessErrorMessgae" (closeInfoAlert)="closeAccessError()"></app-alert-info>
+<app-alert-info [showInforAlert]="showEngagementCloseOutError" [showInfoAlertMessage]="engagementCloseOutErrorMessgae" (closeInfoAlert)="closeCloseOutError()"></app-alert-info>
+<div class="main-block engagement-block">  
+  <ejs-toast #element [position]='position'>
+
+  <Custom-Grid *ngIf="engagementList" [columnsList]="columnDefinition" [data]="engagementList" [showAdd]="false"
+    [showDelete]="false" [showUpdate]="false" [isViewEngagement]="isView" [isSearch]="isSearch" [enableSorting]="true"
+    [showFilter]="false" (dataCount)="getFilterCount($event)" (accessIssue)="accessIssue($event)" (closeOutIssue)="closeOutIssue($event)">
+  </Custom-Grid>
+  <div class="engLen">
+    {{dataLength}}
+    <span>Engagements</span>
+  </div>
+  <div class="d-flex footer flex-end">
+    <button type="button" class="btn btn-primary app-btn-primary" (click)="addEngagement()"> Add New Engagement
+    </button>
+  </div>
+  </ejs-toast>
+  </div>

@@ -1,0 +1,24 @@
+<div class="alert alert-success app-alert-box" role="alert" *ngIf='Isupdated'>
+  <i class="kpmgicon-check-circle"></i>
+  The engagement has been successfully created
+  <button type="button" class="btn btn-icon kpmgicon-cross" data-bs-dismiss="alert" aria-label="Close"
+    (click)='closeSuccessAlert()'></button>
+</div>
+
+<div class="engagementSetup">
+  <div class="engagement-details">
+    <h3 class="team-manage-screen-sub-titleDetails">Engagement Details</h3>
+    <span class="tittle">Engagement Name :</span>
+    <ejs-tooltip id='tooltip' *ngIf="engagementDetailsObj?.engagementName?.length>165; else no_tooltip"
+      content='{{engagementDetailsObj.engagementName}}' position='TopCenter'>
+      <span class="name"> {{ engagementDetailsObj?.engagementName }}...</span>
+    </ejs-tooltip>
+    <ng-template #no_tooltip>
+      <span class="name">{{engagementDetailsObj ? engagementDetailsObj?.engagementName : ""}}</span>
+    </ng-template>
+    <span class="tittle">Period End Date :</span>
+    <span class="name">{{ engagementDetailsObj.periodEndDate | date : 'MM/dd/yyyy' }}</span>
+    <span class="tittle">Region :</span>
+    <span class="name">{{ engagementDetailsObj.regionDisplayName }}</span>
+  </div>
+</div>

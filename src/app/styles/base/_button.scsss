@@ -1,0 +1,7 @@
+.btn {
+    position: relative;
+    &:focus, &hover {
+        box-shadow: none;
+        outline: none
+    }
+}
