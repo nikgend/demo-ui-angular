@@ -35,22 +35,39 @@
             </div>
           </div>
 
-          <!-- Engagement Type -->
+          <!-- Engagement Code -->
           <div class="col-md-6 mb-3">
-            <label for="engagementTypeId" class="form-label">Engagement Type <span class="text-danger">*</span></label>
-            <select
-              class="form-select"
-              id="engagementTypeId"
-              formControlName="engagementTypeId"
-              [class.is-invalid]="engagementForm.get('engagementTypeId')?.invalid && engagementForm.get('engagementTypeId')?.touched">
-              <option value="" disabled>Select engagement type</option>
-              <option *ngFor="let type of engagementTypes" [value]="type.id">
-                {{ type.name }}
-              </option>
-            </select>
-            <div class="invalid-feedback" *ngIf="engagementForm.get('engagementTypeId')?.invalid && engagementForm.get('engagementTypeId')?.touched">
-              Engagement type is required
-            </div>
+            <label for="engagementCode" class="form-label">Engagement Code</label>
+            <input
+              type="text"
+              class="form-control"
+              id="engagementCode"
+              formControlName="engagementCode"
+              placeholder="Enter engagement code">
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Engagement Manager -->
+          <div class="col-md-6 mb-3">
+            <label for="engagementManager" class="form-label">Engagement Manager</label>
+            <input
+              type="text"
+              class="form-control"
+              id="engagementManager"
+              formControlName="engagementManager"
+              placeholder="Enter engagement manager name">
+          </div>
+
+          <!-- Engagement Partner -->
+          <div class="col-md-6 mb-3">
+            <label for="engagementPartner" class="form-label">Engagement Partner</label>
+            <input
+              type="text"
+              class="form-control"
+              id="engagementPartner"
+              formControlName="engagementPartner"
+              placeholder="Enter engagement partner name">
           </div>
         </div>
 
@@ -68,65 +85,6 @@
               Period end date is required
             </div>
           </div>
-
-          <!-- Region -->
-          <div class="col-md-6 mb-3">
-            <label for="regionDisplayName" class="form-label">Region <span class="text-danger">*</span></label>
-            <select
-              class="form-select"
-              id="regionDisplayName"
-              formControlName="regionDisplayName"
-              [class.is-invalid]="engagementForm.get('regionDisplayName')?.invalid && engagementForm.get('regionDisplayName')?.touched">
-              <option value="" disabled>Select region</option>
-              <option *ngFor="let region of regions" [value]="region.name">
-                {{ region.name }}
-              </option>
-            </select>
-            <div class="invalid-feedback" *ngIf="engagementForm.get('regionDisplayName')?.invalid && engagementForm.get('regionDisplayName')?.touched">
-              Region is required
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <!-- Business Unit -->
-          <div class="col-md-6 mb-3">
-            <label for="businessUnit" class="form-label">Business Unit</label>
-            <select
-              class="form-select"
-              id="businessUnit"
-              formControlName="businessUnit">
-              <option value="">Select business unit</option>
-              <option *ngFor="let unit of businessUnits" [value]="unit.id">
-                {{ unit.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- AD Group -->
-          <div class="col-md-6 mb-3">
-            <label for="adGroup" class="form-label">AD Group</label>
-            <select
-              class="form-select"
-              id="adGroup"
-              formControlName="adGroup">
-              <option value="">Select AD group</option>
-              <option *ngFor="let group of adGroups" [value]="group.id">
-                {{ group.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Description -->
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea
-            class="form-control"
-            id="description"
-            rows="3"
-            formControlName="description"
-            placeholder="Enter engagement description (optional)"></textarea>
         </div>
 
         <!-- Form Actions -->

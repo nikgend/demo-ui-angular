@@ -9,16 +9,6 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
-              [class.active]="activeTab === 'add'"
-              (click)="setActiveTab('add')"
-              type="button"
-              role="tab">
-              <i class="icon"></i> Add Engagement
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
               [class.active]="activeTab === 'details'"
               (click)="setActiveTab('details')"
               type="button"
@@ -26,18 +16,28 @@
               <i class="icon"></i> Engagement Details
             </button>
           </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              [class.active]="activeTab === 'add'"
+              (click)="setActiveTab('add')"
+              type="button"
+              role="tab">
+              <i class="icon"></i> Add Engagement
+            </button>
+          </li>
         </ul>
 
         <!-- Tab Content -->
         <div class="tab-content">
-          <!-- Add Engagement Tab -->
-          <div class="tab-pane" [class.active]="activeTab === 'add'" role="tabpanel">
-            <app-add-engagement></app-add-engagement>
-          </div>
-
           <!-- Engagement Details Tab -->
           <div class="tab-pane" [class.active]="activeTab === 'details'" role="tabpanel">
             <app-engagement-details></app-engagement-details>
+          </div>
+
+          <!-- Add Engagement Tab -->
+          <div class="tab-pane" [class.active]="activeTab === 'add'" role="tabpanel">
+            <app-add-engagement></app-add-engagement>
           </div>
         </div>
       </div>

@@ -15,9 +15,6 @@ import { CommonModule } from '@angular/common';
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link" routerLink="/home">Home</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" routerLink="/scoping">Scoping</a>
               </li>
             </ul>

@@ -3,21 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
-  },
-  {
     path: 'scoping',
     loadChildren: () => import('./features/scoping/scoping.module').then(m => m.ScopingModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'scoping',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: 'scoping'
   }
 ];
 

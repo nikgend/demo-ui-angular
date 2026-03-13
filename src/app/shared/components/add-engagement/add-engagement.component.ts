@@ -15,10 +15,6 @@ import { RootReducerState } from '../engagement-details/engagement-state/reducer
 })
 export class AddEngagementComponent implements OnInit {
   engagementForm!: FormGroup;
-  engagementTypes: any[] = [];
-  regions: any[] = [];
-  businessUnits: any[] = [];
-  adGroups: any[] = [];
   isLoading = false;
   successMessage = '';
   errorMessage = '';
@@ -35,57 +31,16 @@ export class AddEngagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.loadDropdownData();
   }
 
   initializeForm(): void {
     this.engagementForm = this.formBuilder.group({
       engagementName: ['', [Validators.required, Validators.minLength(3)]],
-      periodEndDate: ['', Validators.required],
-      regionDisplayName: ['', Validators.required],
-      engagementTypeId: ['', Validators.required],
-      businessUnit: [''],
-      adGroup: [''],
-      description: ['']
+      engagementCode: [''],
+      engagementManager: [''],
+      engagementPartner: [''],
+      periodEndDate: ['', Validators.required]
     });
-  }
-
-  loadDropdownData(): void {
-    this.isLoading = true;
-
-    this.addEngagementService.getEngagementTypes()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => this.engagementTypes = data,
-        error: (err) => console.error('Error loading engagement types:', err)
-      });
-
-    this.addEngagementService.getRegions()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => this.regions = data,
-        error: (err) => console.error('Error loading regions:', err)
-      });
-
-    this.addEngagementService.getBusinessUnits()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => this.businessUnits = data,
-        error: (err) => console.error('Error loading business units:', err)
-      });
-
-    this.addEngagementService.getAdGroups()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => {
-          this.adGroups = data;
-          this.isLoading = false;
-        },
-        error: (err) => {
-          console.error('Error loading ad groups:', err);
-          this.isLoading = false;
-        }
-      });
   }
 
   onSubmit(): void {
@@ -114,12 +69,13 @@ export class AddEngagementComponent implements OnInit {
             const engagementDetail = {
               engagementId: response.engagementId || 0,
               engagementName: formData.engagementName,
-              periodEndDate: formData.periodEndDate,
-              regionDisplayName: formData.regionDisplayName,
-              engagementTypeId: formData.engagementTypeId
+              engagementCode: formData.engagementCode || '',
+              engagementManager: formData.engagementManager || '',
+              engagementPartner: formData.engagementPartner || '',
+              periodEndDate: formData.periodEndDate
             };
 
-            this.store.dispatch(EngActions.updateEngDetails({ data: engagementDetail }));
+            this.store.dispatch(EngActions.updateEngDetails({ data: engagementDetail as any }));
 
             // Reset form after 2 seconds
             setTimeout(() => {

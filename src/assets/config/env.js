@@ -2,7 +2,7 @@
   window['__env'] = window['__env'] || {};
 
   // API URLs
-  window['__env'].apiURL = 'http://localhost:3000';
+  window['__env'].apiURL = 'https://localhost:44351';
   window['__env'].production = false;
 
   // Azure AD Configuration (Optional - Configure with your credentials)
