@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class ScopingComponent {
-  activeTab: 'add' | 'details' = 'add';
+  activeTab: 'add' | 'details' = 'details';
 
   setActiveTab(tab: 'add' | 'details'): void {
     this.activeTab = tab;

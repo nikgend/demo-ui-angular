@@ -1,11 +1,9 @@
 export interface AddEngagementModel {
   engagementName: string;
+  engagementCode?: string;
+  engagementManager?: string;
+  engagementPartner?: string;
   periodEndDate: string;
-  regionDisplayName?: string;
-  engagementTypeId: number;
-  businessUnit?: string;
-  adGroup?: string;
-  description?: string;
 }
 
 export interface AddEngagementResponse {
