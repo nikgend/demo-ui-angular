@@ -1,20 +1,11 @@
-import * as fromEngDetail from './eng-reducer';
-import {ActionReducerMap, createSelector} from '@ngrx/store';
-
+import { ActionReducerMap } from '@ngrx/store';
+import { EngagementDetailsState } from '../models/engDetails';
+import { engDetailReducer } from './eng-reducer';
 
 export interface RootReducerState {
-  engDetails: fromEngDetail.EngDetailsReducerState;
+  engDetails: EngagementDetailsState;
 }
 
 export const rootReducer: ActionReducerMap<RootReducerState> = {
-  engDetails: fromEngDetail.EngDetailReducer,
+  engDetails: engDetailReducer
 };
-
-export const getengDetailstate = (state: RootReducerState) => state.engDetails;
-
-export const getEngDetailLoaded = createSelector(getengDetailstate, fromEngDetail.getLoaded);
-export const getEngDetailLoading = createSelector(getengDetailstate, fromEngDetail.getLoading);
-export const getEngDetailEntities = createSelector(getengDetailstate, fromEngDetail.getEngDetailEntities);
-export const getEngDetailError = createSelector(getengDetailstate, fromEngDetail.getError);
-
-

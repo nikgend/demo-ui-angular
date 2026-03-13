@@ -1,0 +1,155 @@
+<div class="add-engagement-container">
+  <div class="card">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Add New Engagement</h5>
+    </div>
+    <div class="card-body">
+      <!-- Success Alert -->
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="showSuccessAlert">
+        <strong>Success!</strong> {{ successMessage }}
+        <button type="button" class="btn-close" (click)="closeAlert('success')" aria-label="Close"></button>
+      </div>
+
+      <!-- Error Alert -->
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="showErrorAlert">
+        <strong>Error!</strong> {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="closeAlert('error')" aria-label="Close"></button>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="engagementForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row">
+          <!-- Engagement Name -->
+          <div class="col-md-6 mb-3">
+            <label for="engagementName" class="form-label">Engagement Name <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="engagementName"
+              formControlName="engagementName"
+              placeholder="Enter engagement name"
+              [class.is-invalid]="engagementForm.get('engagementName')?.invalid && engagementForm.get('engagementName')?.touched">
+            <div class="invalid-feedback" *ngIf="engagementForm.get('engagementName')?.invalid && engagementForm.get('engagementName')?.touched">
+              <span *ngIf="engagementForm.get('engagementName')?.errors?.['required']">Engagement name is required</span>
+              <span *ngIf="engagementForm.get('engagementName')?.errors?.['minlength']">Engagement name must be at least 3 characters</span>
+            </div>
+          </div>
+
+          <!-- Engagement Type -->
+          <div class="col-md-6 mb-3">
+            <label for="engagementTypeId" class="form-label">Engagement Type <span class="text-danger">*</span></label>
+            <select
+              class="form-select"
+              id="engagementTypeId"
+              formControlName="engagementTypeId"
+              [class.is-invalid]="engagementForm.get('engagementTypeId')?.invalid && engagementForm.get('engagementTypeId')?.touched">
+              <option value="" disabled>Select engagement type</option>
+              <option *ngFor="let type of engagementTypes" [value]="type.id">
+                {{ type.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="engagementForm.get('engagementTypeId')?.invalid && engagementForm.get('engagementTypeId')?.touched">
+              Engagement type is required
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Period End Date -->
+          <div class="col-md-6 mb-3">
+            <label for="periodEndDate" class="form-label">Period End Date <span class="text-danger">*</span></label>
+            <input
+              type="date"
+              class="form-control"
+              id="periodEndDate"
+              formControlName="periodEndDate"
+              [class.is-invalid]="engagementForm.get('periodEndDate')?.invalid && engagementForm.get('periodEndDate')?.touched">
+            <div class="invalid-feedback" *ngIf="engagementForm.get('periodEndDate')?.invalid && engagementForm.get('periodEndDate')?.touched">
+              Period end date is required
+            </div>
+          </div>
+
+          <!-- Region -->
+          <div class="col-md-6 mb-3">
+            <label for="regionDisplayName" class="form-label">Region <span class="text-danger">*</span></label>
+            <select
+              class="form-select"
+              id="regionDisplayName"
+              formControlName="regionDisplayName"
+              [class.is-invalid]="engagementForm.get('regionDisplayName')?.invalid && engagementForm.get('regionDisplayName')?.touched">
+              <option value="" disabled>Select region</option>
+              <option *ngFor="let region of regions" [value]="region.name">
+                {{ region.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="engagementForm.get('regionDisplayName')?.invalid && engagementForm.get('regionDisplayName')?.touched">
+              Region is required
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Business Unit -->
+          <div class="col-md-6 mb-3">
+            <label for="businessUnit" class="form-label">Business Unit</label>
+            <select
+              class="form-select"
+              id="businessUnit"
+              formControlName="businessUnit">
+              <option value="">Select business unit</option>
+              <option *ngFor="let unit of businessUnits" [value]="unit.id">
+                {{ unit.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- AD Group -->
+          <div class="col-md-6 mb-3">
+            <label for="adGroup" class="form-label">AD Group</label>
+            <select
+              class="form-select"
+              id="adGroup"
+              formControlName="adGroup">
+              <option value="">Select AD group</option>
+              <option *ngFor="let group of adGroups" [value]="group.id">
+                {{ group.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            class="form-control"
+            id="description"
+            rows="3"
+            formControlName="description"
+            placeholder="Enter engagement description (optional)"></textarea>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button
+            type="reset"
+            class="btn btn-secondary"
+            (click)="resetForm()"
+            [disabled]="isLoading">
+            Reset
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="isLoading">
+            <span *ngIf="!isLoading">Add Engagement</span>
+            <span *ngIf="isLoading">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Processing...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

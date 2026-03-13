@@ -1,42 +1,35 @@
-@import "src/app/styles/abstracts/_variables.scss";
+.engagement-details {
+  .card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1rem;
 
-.engagementSetup {
-  display: block;
-  width: 100%;
-  border-top: 1px solid $non-brand-gray-l;
-  border-bottom: 1px solid $non-brand-gray-l;
-  margin: 10px 0 20px 0;
+    .card-header {
+      border-radius: 0.5rem 0.5rem 0 0;
+      padding: 1rem;
 
-  .engagement-details {
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    font-size: 14px;
-    margin-right: 40px;
-    max-width: 100%;
-    color: $kpmg-gray-800;
+      h5 {
+        font-weight: 600;
+      }
+    }
+
+    .card-body {
+      padding: 1.5rem;
+
+      .form-label {
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .text-muted {
+        font-size: 0.95rem;
+        padding: 0.25rem 0;
+      }
+    }
   }
 
-  .tittle {
-    font-weight: 400;
-  }
-
-  .name {
-    font-weight: 400;
-    margin-right: 35px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: block;
-  }
-
-  .engagement-details .team-manage-screen-sub-titleDetails {
-    display: block;
-    font-size: 20px;
-    color: #444444;
-    font-weight: 700;
-    padding: 15px 0 10px;
-    line-height: 1;
-    width: 15%;
-    margin-left: -10px;
+  .alert {
+    border-radius: 0.5rem;
+    border: none;
   }
 }

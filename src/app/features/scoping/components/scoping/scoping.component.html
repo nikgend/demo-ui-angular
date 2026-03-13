@@ -1,0 +1,46 @@
+<div class="scoping-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="mb-4">Engagement Scoping</h3>
+
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs mb-4" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              [class.active]="activeTab === 'add'"
+              (click)="setActiveTab('add')"
+              type="button"
+              role="tab">
+              <i class="icon"></i> Add Engagement
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              [class.active]="activeTab === 'details'"
+              (click)="setActiveTab('details')"
+              type="button"
+              role="tab">
+              <i class="icon"></i> Engagement Details
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Add Engagement Tab -->
+          <div class="tab-pane" [class.active]="activeTab === 'add'" role="tabpanel">
+            <app-add-engagement></app-add-engagement>
+          </div>
+
+          <!-- Engagement Details Tab -->
+          <div class="tab-pane" [class.active]="activeTab === 'details'" role="tabpanel">
+            <app-engagement-details></app-engagement-details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

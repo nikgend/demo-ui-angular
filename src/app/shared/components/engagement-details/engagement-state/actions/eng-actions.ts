@@ -1,26 +1,26 @@
-import {EngdetailsModel} from '../models/engDetails';
+import { createAction, props } from '@ngrx/store';
+import { EngdetailsModel } from '../models/engDetails';
 
-export const ENGDETAILS_LIST_REQUEST = 'EngDetails list request';
-export const ENGDETAILS_LIST_SUCCESS = 'EngDetails list success';
-export const ENGDETAILS_UPDATE = 'EngDetails update';
-export const ENGDETAILS_LIST_ERROR = 'EngDetails list error';
+export const ENGDETAILS_UPDATE = '[Engagement Details] Update';
+export const ENGDETAILS_LOAD = '[Engagement Details] Load';
+export const ENGDETAILS_LOAD_SUCCESS = '[Engagement Details] Load Success';
+export const ENGDETAILS_LOAD_FAILURE = '[Engagement Details] Load Failure';
 
-export class EngDetailsListRequestAction {
-  readonly type = ENGDETAILS_LIST_REQUEST;
-}
-export class EngDetailsUpdateAction {
-  readonly type = ENGDETAILS_UPDATE;
+export const updateEngDetails = createAction(
+  ENGDETAILS_UPDATE,
+  props<{ data: EngdetailsModel }>()
+);
 
-  constructor(public payload?: { data: EngdetailsModel }) {
-  }
-}
-export class EngDetailsListErrorAction {
-  readonly type = ENGDETAILS_LIST_ERROR;
-}
+export const loadEngDetails = createAction(
+  ENGDETAILS_LOAD
+);
 
-export class EngDetailsListSuccessAction {
-  readonly type = ENGDETAILS_LIST_SUCCESS;
+export const loadEngDetailsSuccess = createAction(
+  ENGDETAILS_LOAD_SUCCESS,
+  props<{ data: EngdetailsModel }>()
+);
 
-  constructor(public payload?: { data: EngdetailsModel[] }) {
-  }
-}
+export const loadEngDetailsFailure = createAction(
+  ENGDETAILS_LOAD_FAILURE,
+  props<{ error: string }>()
+);
