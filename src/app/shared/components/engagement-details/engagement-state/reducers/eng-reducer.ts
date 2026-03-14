@@ -3,9 +3,10 @@ import { EngagementDetailsState, EngdetailsModel } from '../models/engDetails';
 import * as EngActions from '../actions/eng-actions';
 
 export const initialState: EngagementDetailsState = {
-  entities: null,
+  entities: [],
   loading: false,
-  error: null
+  error: null,
+  editingEngagement: null
 };
 
 export const engDetailReducer = createReducer(
@@ -16,19 +17,22 @@ export const engDetailReducer = createReducer(
     error: null
   })),
   on(EngActions.updateEngDetails, (state, { data }) => {
-    sessionStorage.setItem("engDetails", JSON.stringify(data));
+    const currentList = Array.isArray(state.entities) ? state.entities : [];
+    const newList = [...currentList, data];
+    sessionStorage.setItem("engDetails", JSON.stringify(newList));
     return {
       ...state,
-      entities: data,
+      entities: newList,
       loading: false,
       error: null
     };
   }),
   on(EngActions.loadEngDetailsSuccess, (state, { data }) => {
-    sessionStorage.setItem("engDetails", JSON.stringify(data));
+    const dataList = Array.isArray(data) ? data : [data];
+    sessionStorage.setItem("engDetails", JSON.stringify(dataList));
     return {
       ...state,
-      entities: data,
+      entities: dataList,
       loading: false,
       error: null
     };
@@ -37,9 +41,35 @@ export const engDetailReducer = createReducer(
     ...state,
     loading: false,
     error
+  })),
+  on(EngActions.deleteEngagementSuccess, (state, { engagementId }) => {
+    const updatedList = state.entities ? (state.entities as EngdetailsModel[]).filter(
+      (eng) => eng.engagementId !== engagementId
+    ) : [];
+    sessionStorage.setItem("engDetails", JSON.stringify(updatedList));
+    return {
+      ...state,
+      entities: updatedList,
+      loading: false,
+      error: null
+    };
+  }),
+  on(EngActions.deleteEngagementFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+  on(EngActions.setEditEngagement, (state, { engagement }) => ({
+    ...state,
+    editingEngagement: engagement
+  })),
+  on(EngActions.clearEditEngagement, (state) => ({
+    ...state,
+    editingEngagement: null
   }))
 );
 
 export function reducer(state: EngagementDetailsState | undefined, action: any) {
   return engDetailReducer(state, action);
 }
+

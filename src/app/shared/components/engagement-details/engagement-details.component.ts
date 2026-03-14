@@ -1,4 +1,4 @@
-import { Component, OnInit, DestroyRef, inject } from '@angular/core';
+import { Component, OnInit, DestroyRef, Output, EventEmitter, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RootReducerState } from './engagement-state/reducers/index';
@@ -12,7 +12,9 @@ import * as EngActions from './engagement-state/actions/eng-actions';
   standalone: false
 })
 export class EngagementDetailsComponent implements OnInit {
-  engagementDetailsObj: EngdetailsModel | null = null;
+  engagementDetailsList: EngdetailsModel[] = [];
+  @Output() editEngagement = new EventEmitter<EngdetailsModel>();
+
   private destroyRef = inject(DestroyRef);
 
   constructor(
@@ -20,11 +22,33 @@ export class EngagementDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Dispatch action to load engagements from API
+    this.store.dispatch(EngActions.loadEngDetails());
+
     // Subscribe to engagement details from store
     this.store.select(state => state.engDetails.entities)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
-        this.engagementDetailsObj = result;
+        if (result) {
+          // If result is an array, use it directly; otherwise, wrap single object in array
+          this.engagementDetailsList = Array.isArray(result) ? result : [result];
+        } else {
+          this.engagementDetailsList = [];
+        }
       });
   }
+
+  onEditEngagement(engagement: EngdetailsModel): void {
+    // Store the engagement in store for edit mode
+    this.store.dispatch(EngActions.setEditEngagement({ engagement }));
+    // Emit event to parent component to switch to Add Engagement tab in edit mode
+    this.editEngagement.emit(engagement);
+  }
+
+  onDeleteEngagement(engagementId: number): void {
+    if (confirm('Are you sure you want to delete this engagement?')) {
+      this.store.dispatch(EngActions.deleteEngagement({ engagementId }));
+    }
+  }
 }
+

@@ -20,6 +20,8 @@ export class AddEngagementComponent implements OnInit {
   errorMessage = '';
   showSuccessAlert = false;
   showErrorAlert = false;
+  isEditMode = false;
+  editingEngagementId: number | null = null;
 
   private destroyRef = inject(DestroyRef);
 
@@ -31,6 +33,20 @@ export class AddEngagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+
+    // Subscribe to check if we're in edit mode
+    this.store.select(state => state.engDetails.editingEngagement)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(editingEngagement => {
+        if (editingEngagement) {
+          this.isEditMode = true;
+          this.editingEngagementId = editingEngagement.engagementId || null;
+          this.loadFormWithData(editingEngagement);
+        } else {
+          this.isEditMode = false;
+          this.editingEngagementId = null;
+        }
+      });
   }
 
   initializeForm(): void {
@@ -40,6 +56,16 @@ export class AddEngagementComponent implements OnInit {
       engagementManager: [''],
       engagementPartner: [''],
       periodEndDate: ['', Validators.required]
+    });
+  }
+
+  loadFormWithData(engagement: any): void {
+    this.engagementForm.patchValue({
+      engagementName: engagement.engagementName || '',
+      engagementCode: engagement.engagementCode || '',
+      engagementManager: engagement.engagementManager || '',
+      engagementPartner: engagement.engagementPartner || '',
+      periodEndDate: engagement.periodEndDate || ''
     });
   }
 
@@ -56,18 +82,22 @@ export class AddEngagementComponent implements OnInit {
 
     const formData: AddEngagementModel = this.engagementForm.value;
 
-    this.addEngagementService.submitEngagement(formData)
+    const submitRequest = this.isEditMode && this.editingEngagementId
+      ? this.addEngagementService.updateEngagement(this.editingEngagementId, formData)
+      : this.addEngagementService.submitEngagement(formData);
+
+    submitRequest
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
           this.isLoading = false;
           if (response.success) {
-            this.successMessage = response.message || 'Engagement added successfully!';
+            this.successMessage = response.message || (this.isEditMode ? 'Engagement updated successfully!' : 'Engagement added successfully!');
             this.showSuccessAlert = true;
 
             // Dispatch action to update engagement details in store
             const engagementDetail = {
-              engagementId: response.engagementId || 0,
+              engagementId: response.engagementId || this.editingEngagementId || 0,
               engagementName: formData.engagementName,
               engagementCode: formData.engagementCode || '',
               engagementManager: formData.engagementManager || '',
@@ -77,19 +107,24 @@ export class AddEngagementComponent implements OnInit {
 
             this.store.dispatch(EngActions.updateEngDetails({ data: engagementDetail as any }));
 
+            // Clear edit mode
+            this.store.dispatch(EngActions.clearEditEngagement());
+
             // Reset form after 2 seconds
             setTimeout(() => {
               this.engagementForm.reset();
               this.showSuccessAlert = false;
+              this.isEditMode = false;
+              this.editingEngagementId = null;
             }, 2000);
           } else {
-            this.errorMessage = response.message || 'Failed to add engagement.';
+            this.errorMessage = response.message || (this.isEditMode ? 'Failed to update engagement.' : 'Failed to add engagement.');
             this.showErrorAlert = true;
           }
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = error?.error?.message || 'An error occurred while adding the engagement.';
+          this.errorMessage = error?.error?.message || (this.isEditMode ? 'An error occurred while updating the engagement.' : 'An error occurred while adding the engagement.');
           this.showErrorAlert = true;
           console.error('Error submitting engagement:', error);
         }
@@ -100,6 +135,9 @@ export class AddEngagementComponent implements OnInit {
     this.engagementForm.reset();
     this.showSuccessAlert = false;
     this.showErrorAlert = false;
+    this.store.dispatch(EngActions.clearEditEngagement());
+    this.isEditMode = false;
+    this.editingEngagementId = null;
   }
 
   closeAlert(alertType: 'success' | 'error'): void {

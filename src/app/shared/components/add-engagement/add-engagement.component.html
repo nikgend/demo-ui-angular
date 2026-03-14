@@ -1,7 +1,7 @@
 <div class="add-engagement-container">
   <div class="card">
-    <div class="card-header bg-success text-white">
-      <h5 class="mb-0">Add New Engagement</h5>
+    <div class="card-header" [ngClass]="isEditMode ? 'bg-info' : 'bg-success'" [class]="'text-white'">
+      <h5 class="mb-0">{{ isEditMode ? 'Edit Engagement' : 'Add New Engagement' }}</h5>
     </div>
     <div class="card-body">
       <!-- Success Alert -->
@@ -98,9 +98,10 @@
           </button>
           <button
             type="submit"
-            class="btn btn-success"
+            [ngClass]="isEditMode ? 'btn-info' : 'btn-success'"
+            class="btn"
             [disabled]="isLoading">
-            <span *ngIf="!isLoading">Add Engagement</span>
+            <span *ngIf="!isLoading">{{ isEditMode ? 'Update Engagement' : 'Add Engagement' }}</span>
             <span *ngIf="isLoading">
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Processing...

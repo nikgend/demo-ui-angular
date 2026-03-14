@@ -16,6 +16,11 @@ export class AddEngagementService {
     return this.http.post<AddEngagementResponse>(apiUrl, engagementData);
   }
 
+  updateEngagement(engagementId: number, engagementData: AddEngagementModel): Observable<AddEngagementResponse> {
+    const apiUrl = `${EnvService.apiURL}/api/Engagement/${engagementId}`;
+    return this.http.put<AddEngagementResponse>(apiUrl, engagementData);
+  }
+
   getEngagementTypes(): Observable<any[]> {
     const apiUrl = `${EnvService.apiURL}/api/engagement-types`;
     return this.http.get<any[]>(apiUrl);
