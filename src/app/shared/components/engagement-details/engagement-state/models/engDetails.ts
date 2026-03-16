@@ -1,4 +1,5 @@
 export interface EngdetailsModel {
+  id?: number;
   engagementId?: number;
   engagementName: string;
   engagementCode?: string;
@@ -14,4 +15,6 @@ export interface EngagementDetailsState {
   loading: boolean;
   error: string | null;
   editingEngagement: EngdetailsModel | null;
+  successMessage: string | null;
+  showSuccessAlert: boolean;
 }

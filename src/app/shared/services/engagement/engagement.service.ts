@@ -10,21 +10,26 @@ import { EnvService } from '../env-service/env.service';
 export class EngagementService {
   constructor(private http: HttpClient) {}
 
-  // Get all engagements from https://localhost:44351/api/engagement
+  // Get all engagements from API
   getEngagements(): Observable<EngdetailsModel[]> {
-    const apiUrl = `${EnvService.apiURL}/api/engagement`;
+    const apiUrl = `${EnvService.apiURL}/api/Engagement`;
     return this.http.get<EngdetailsModel[]>(apiUrl);
   }
 
   // Get engagement by ID
   getEngagementById(engagementId: number): Observable<EngdetailsModel> {
-    const apiUrl = `${EnvService.apiURL}/api/engagement/${engagementId}`;
+    const apiUrl = `${EnvService.apiURL}/api/Engagement/${engagementId}`;
     return this.http.get<EngdetailsModel>(apiUrl);
   }
 
   // Delete engagement by ID
   deleteEngagement(engagementId: number): Observable<any> {
-    const apiUrl = `${EnvService.apiURL}/api/engagement/${engagementId}`;
+    console.log('Service Delete - ID:', engagementId, 'Type:', typeof engagementId);
+    if (!engagementId || engagementId === 0) {
+      throw new Error('Invalid engagement ID for deletion');
+    }
+    const apiUrl = `${EnvService.apiURL}/api/Engagement/${engagementId}`;
+    console.log('Delete API URL:', apiUrl);
     return this.http.delete(apiUrl);
   }
 }

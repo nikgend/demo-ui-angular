@@ -4,6 +4,18 @@
       <h5 class="mb-0">Engagement Details</h5>
     </div>
     <div class="card-body">
+      <!-- Success Alert -->
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="showSuccessAlert">
+        <strong>Success!</strong> {{ successMessage }}
+        <button type="button" class="btn-close" (click)="closeAlert('success')" aria-label="Close"></button>
+      </div>
+
+      <!-- Error Alert -->
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="showErrorAlert">
+        <strong>Error!</strong> {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="closeAlert('error')" aria-label="Close"></button>
+      </div>
+
       <div class="table-responsive" *ngIf="engagementDetailsList && engagementDetailsList.length > 0">
         <table class="table table-striped table-hover">
           <thead class="table-light">
@@ -32,7 +44,7 @@
                 </button>
                 <button
                   class="btn btn-sm btn-danger"
-                  (click)="onDeleteEngagement(engagement.engagementId!)"
+                  (click)="onDeleteEngagement(engagement.engagementId || engagement['id'] || engagement['Id'])"
                   title="Delete">
                   <i class="bi bi-trash"></i> Delete
                 </button>

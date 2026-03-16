@@ -12,7 +12,13 @@ export class EngagementDetailsEffects {
       ofType(EngActions.loadEngDetails),
       switchMap(() =>
         this.engagementService.getEngagements().pipe(
-          map(data => EngActions.loadEngDetailsSuccess({ data })),
+          map(data => {
+            console.log('API Response Data:', data);
+            if (data && data.length > 0) {
+              console.log('First item structure:', data[0]);
+            }
+            return EngActions.loadEngDetailsSuccess({ data });
+          }),
           catchError(error =>
             of(EngActions.loadEngDetailsFailure({ error: error.message }))
           )
@@ -24,14 +30,19 @@ export class EngagementDetailsEffects {
   deleteEngagement$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EngActions.deleteEngagement),
-      switchMap(({ engagementId }) =>
-        this.engagementService.deleteEngagement(engagementId).pipe(
-          map(() => EngActions.deleteEngagementSuccess({ engagementId })),
-          catchError(error =>
-            of(EngActions.deleteEngagementFailure({ error: error.message }))
-          )
-        )
-      )
+      switchMap(({ engagementId }) => {
+        console.log('Delete Effect - Engagement ID:', engagementId);
+        return this.engagementService.deleteEngagement(engagementId).pipe(
+          map(() => {
+            console.log('Delete Success for ID:', engagementId);
+            return EngActions.deleteEngagementSuccess({ engagementId });
+          }),
+          catchError(error => {
+            console.error('Delete Error:', error);
+            return of(EngActions.deleteEngagementFailure({ error: error.message }));
+          })
+        );
+      })
     )
   );
 

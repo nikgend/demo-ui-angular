@@ -10,6 +10,7 @@ export const ENGDETAILS_DELETE_SUCCESS = '[Engagement Details] Delete Success';
 export const ENGDETAILS_DELETE_FAILURE = '[Engagement Details] Delete Failure';
 export const ENGDETAILS_SET_EDIT = '[Engagement Details] Set Edit';
 export const ENGDETAILS_CLEAR_EDIT = '[Engagement Details] Clear Edit';
+export const ENGDETAILS_CLEAR_SUCCESS = '[Engagement Details] Clear Success Message';
 
 export const updateEngDetails = createAction(
   ENGDETAILS_UPDATE,
@@ -52,5 +53,9 @@ export const setEditEngagement = createAction(
 
 export const clearEditEngagement = createAction(
   ENGDETAILS_CLEAR_EDIT
+);
+
+export const clearSuccessMessage = createAction(
+  ENGDETAILS_CLEAR_SUCCESS
 );
 

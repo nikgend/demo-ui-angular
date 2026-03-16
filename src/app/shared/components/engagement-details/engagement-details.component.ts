@@ -13,6 +13,10 @@ import * as EngActions from './engagement-state/actions/eng-actions';
 })
 export class EngagementDetailsComponent implements OnInit {
   engagementDetailsList: EngdetailsModel[] = [];
+  successMessage = '';
+  errorMessage = '';
+  showSuccessAlert = false;
+  showErrorAlert = false;
   @Output() editEngagement = new EventEmitter<EngdetailsModel>();
 
   private destroyRef = inject(DestroyRef);
@@ -32,8 +36,37 @@ export class EngagementDetailsComponent implements OnInit {
         if (result) {
           // If result is an array, use it directly; otherwise, wrap single object in array
           this.engagementDetailsList = Array.isArray(result) ? result : [result];
+          console.log('Engagement List:', this.engagementDetailsList);
         } else {
           this.engagementDetailsList = [];
+        }
+      });
+
+    // Subscribe to success messages
+    this.store.select(state => state.engDetails.successMessage)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(message => {
+        if (message) {
+          this.successMessage = message;
+          this.showSuccessAlert = true;
+          // Auto-hide alert after 3 seconds
+          setTimeout(() => {
+            this.closeAlert('success');
+          }, 3000);
+        }
+      });
+
+    // Subscribe to error messages
+    this.store.select(state => state.engDetails.error)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(error => {
+        if (error) {
+          this.errorMessage = error;
+          this.showErrorAlert = true;
+          // Auto-hide alert after 3 seconds
+          setTimeout(() => {
+            this.closeAlert('error');
+          }, 3000);
         }
       });
   }
@@ -46,8 +79,23 @@ export class EngagementDetailsComponent implements OnInit {
   }
 
   onDeleteEngagement(engagementId: number): void {
+    console.log('Delete Engagement ID:', engagementId);
+    if (!engagementId) {
+      this.errorMessage = 'Unable to delete: Engagement ID is missing';
+      this.showErrorAlert = true;
+      return;
+    }
     if (confirm('Are you sure you want to delete this engagement?')) {
       this.store.dispatch(EngActions.deleteEngagement({ engagementId }));
+    }
+  }
+
+  closeAlert(alertType: 'success' | 'error'): void {
+    if (alertType === 'success') {
+      this.showSuccessAlert = false;
+      this.store.dispatch(EngActions.clearSuccessMessage());
+    } else {
+      this.showErrorAlert = false;
     }
   }
 }

@@ -6,7 +6,9 @@ export const initialState: EngagementDetailsState = {
   entities: [],
   loading: false,
   error: null,
-  editingEngagement: null
+  editingEngagement: null,
+  successMessage: null,
+  showSuccessAlert: false
 };
 
 export const engDetailReducer = createReducer(
@@ -51,13 +53,16 @@ export const engDetailReducer = createReducer(
       ...state,
       entities: updatedList,
       loading: false,
-      error: null
+      error: null,
+      successMessage: 'Engagement deleted successfully!',
+      showSuccessAlert: true
     };
   }),
   on(EngActions.deleteEngagementFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
+    showSuccessAlert: false
   })),
   on(EngActions.setEditEngagement, (state, { engagement }) => ({
     ...state,
@@ -66,6 +71,11 @@ export const engDetailReducer = createReducer(
   on(EngActions.clearEditEngagement, (state) => ({
     ...state,
     editingEngagement: null
+  })),
+  on(EngActions.clearSuccessMessage, (state) => ({
+    ...state,
+    successMessage: null,
+    showSuccessAlert: false
   }))
 );
 
