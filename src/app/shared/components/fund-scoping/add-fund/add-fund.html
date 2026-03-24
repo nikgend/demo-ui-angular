@@ -1,0 +1,205 @@
+<div class="add-fund-page">
+  <div class="page-header">
+    <nav class="breadcrumb">
+      <span>Dashboard</span>
+      <span class="sep">›</span>
+      <span>Engagement Setup</span>
+      <span class="sep">›</span>
+      <span>Fund Scoping</span>
+      <span class="sep">›</span>
+      <span class="current">{{ isEdit ? 'Edit Fund' : 'Add Fund' }}</span>
+    </nav>
+    <h1>{{ isEdit ? 'Edit Fund' : 'Add Fund' }}</h1>
+    <p class="subtitle">{{ isEdit ? 'Update fund details for this engagement.' : 'Define a new fund for this engagement. All mandatory fields must be completed.' }}</p>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="banner banner-error">
+      <span class="banner-icon">⚠</span>
+      {{ errorMessage() }}
+    </div>
+  }
+  @if (successMessage()) {
+    <div class="banner banner-success">
+      <span class="banner-icon">✓</span>
+      {{ successMessage() }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-card">
+      <h2 class="section-title">Fund Identification</h2>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label for="name">Fund Name <span class="required">*</span></label>
+          <input id="name" type="text" formControlName="name"
+            placeholder="Enter fund name (3–200 characters)"
+            [class.error]="form.get('name')?.invalid && form.get('name')?.touched" />
+          @if (getFieldError('name')) {
+            <span class="field-error">{{ getFieldError('name') }}</span>
+          }
+          <span class="hint">Must include at least one alphabetic character. Duplicate fund names within the same engagement are not allowed.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Type of Fund <span class="required">*</span></label>
+          <select id="type" formControlName="type" [class.error]="form.get('type')?.invalid && form.get('type')?.touched">
+            <option value="">Select fund type</option>
+            @for (t of controlValues.fundTypes; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+          @if (getFieldError('type')) {
+            <span class="field-error">{{ getFieldError('type') }}</span>
+          }
+          @if (isLocked('type')) {
+            <span class="locked-badge">🔒 Locked at current workflow stage</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="administrator">Administrator <span class="required">*</span></label>
+          <select id="administrator" formControlName="administrator" [class.error]="form.get('administrator')?.invalid && form.get('administrator')?.touched">
+            <option value="">Select administrator</option>
+            @for (a of controlValues.administrators; track a) {
+              <option [value]="a">{{ a }}</option>
+            }
+          </select>
+          @if (getFieldError('administrator')) {
+            <span class="field-error">{{ getFieldError('administrator') }}</span>
+          }
+          @if (isLocked('administrator')) {
+            <span class="locked-badge">🔒 Locked at current workflow stage</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="brokerCustodian">Broker/Custodian <span class="required">*</span></label>
+          <select id="brokerCustodian" formControlName="brokerCustodian" [class.error]="form.get('brokerCustodian')?.invalid && form.get('brokerCustodian')?.touched">
+            <option value="">Select broker/custodian</option>
+            @for (b of controlValues.brokerCustodians; track b) {
+              <option [value]="b">{{ b }}</option>
+            }
+          </select>
+          @if (getFieldError('brokerCustodian')) {
+            <span class="field-error">{{ getFieldError('brokerCustodian') }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="reportingCurrency">Reporting Currency <span class="required">*</span></label>
+          <select id="reportingCurrency" formControlName="reportingCurrency" [class.error]="form.get('reportingCurrency')?.invalid && form.get('reportingCurrency')?.touched">
+            <option value="">Select currency</option>
+            @for (c of controlValues.reportingCurrencies; track c) {
+              <option [value]="c">{{ c }}</option>
+            }
+          </select>
+          @if (getFieldError('reportingCurrency')) {
+            <span class="field-error">{{ getFieldError('reportingCurrency') }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2 class="section-title">Type of Investments <span class="required">*</span></h2>
+      @if (isLocked('investmentTypes')) {
+        <div class="locked-info">🔒 Investment types are locked at current workflow stage.</div>
+      }
+      <div class="investment-grid">
+        @for (inv of controlValues.investmentTypes; track inv) {
+          <label class="checkbox-item" [class.locked]="isLocked('investmentTypes')">
+            <input type="checkbox"
+              [checked]="isInvestmentSelected(inv)"
+              [disabled]="isLocked('investmentTypes')"
+              (change)="toggleInvestmentType(inv)" />
+            <span class="checkmark"></span>
+            {{ inv }}
+          </label>
+        }
+      </div>
+      @if (form.get('investmentTypes')?.touched && (form.get('investmentTypes')?.value?.length === 0)) {
+        <span class="field-error">Please select at least one investment type.</span>
+      }
+    </div>
+
+    <div class="form-card">
+      <h2 class="section-title">Period & Dates</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="periodBegin">Period Begin Date <span class="required">*</span></label>
+          <input id="periodBegin" type="date" formControlName="periodBegin"
+            [class.error]="form.get('periodBegin')?.invalid && form.get('periodBegin')?.touched" />
+          @if (getFieldError('periodBegin')) {
+            <span class="field-error">{{ getFieldError('periodBegin') }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="periodEnd">Period End Date <span class="required">*</span></label>
+          <input id="periodEnd" type="date" formControlName="periodEnd"
+            [class.error]="form.get('periodEnd')?.invalid && form.get('periodEnd')?.touched" />
+          @if (getFieldError('periodEnd')) {
+            <span class="field-error">{{ getFieldError('periodEnd') }}</span>
+          }
+          <span class="hint">Must be after Period Begin Date.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="auditSignoff">Expected Audit Sign-Off Date <span class="required">*</span></label>
+          <input id="auditSignoff" type="date" formControlName="auditSignoff"
+            [class.error]="form.get('auditSignoff')?.invalid && form.get('auditSignoff')?.touched" />
+          @if (getFieldError('auditSignoff')) {
+            <span class="field-error">{{ getFieldError('auditSignoff') }}</span>
+          }
+          <span class="hint">Must be a future date relative to Period Begin, Period End, and today.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2 class="section-title">Financial Thresholds</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="materiality">Materiality</label>
+          <input id="materiality" type="number" formControlName="materiality" placeholder="e.g. 1000000"
+            [class.error]="form.get('materiality')?.invalid && form.get('materiality')?.touched" />
+          @if (getFieldError('materiality')) {
+            <span class="field-error">{{ getFieldError('materiality') }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="performanceMateriality">Performance Materiality</label>
+          <input id="performanceMateriality" type="number" formControlName="performanceMateriality" placeholder="e.g. 800000"
+            [class.error]="form.get('performanceMateriality')?.invalid && form.get('performanceMateriality')?.touched" />
+          @if (getFieldError('performanceMateriality')) {
+            <span class="field-error">{{ getFieldError('performanceMateriality') }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="misstatementThreshold">Misstatement Threshold</label>
+          <input id="misstatementThreshold" type="number" formControlName="misstatementThreshold" placeholder="e.g. 50000"
+            [class.error]="form.get('misstatementThreshold')?.invalid && form.get('misstatementThreshold')?.touched" />
+          @if (getFieldError('misstatementThreshold')) {
+            <span class="field-error">{{ getFieldError('misstatementThreshold') }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancelled.emit()" [disabled]="isLoading()">
+        Cancel
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span class="spinner"></span> Saving...
+        } @else {
+          {{ isEdit ? 'Save Changes' : 'Add Fund' }}
+        }
+      </button>
+    </div>
+  </form>
+</div>

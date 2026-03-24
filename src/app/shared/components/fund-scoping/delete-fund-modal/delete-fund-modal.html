@@ -1,0 +1,61 @@
+<div class="modal-overlay" (click)="cancelled.emit()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Delete Fund{{ selectedFunds.length > 1 ? 's' : '' }}</h2>
+      <button class="close-btn" (click)="cancelled.emit()">✕</button>
+    </div>
+
+    @if (blockedFunds.length > 0) {
+      <div class="warning-banner">
+        <span class="warn-icon">⚠</span>
+        <div>
+          <strong>Cannot delete the following fund(s)</strong> — Data Import has been completed:
+          <ul class="blocked-list">
+            @for (f of blockedFunds; track f.id) {
+              <li>{{ f.name }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <div class="error-banner">
+        <span>⚠</span> {{ errorMessage() }}
+      </div>
+    }
+
+    @if (deletableFunds.length > 0) {
+      <p class="confirm-text">
+        Are you sure you want to permanently delete the following
+        <strong>{{ deletableFunds.length }}</strong> fund{{ deletableFunds.length > 1 ? 's' : '' }}?
+        This action cannot be undone.
+      </p>
+      <ul class="fund-list">
+        @for (f of deletableFunds; track f.id) {
+          <li>
+            <span class="fund-name">{{ f.name }}</span>
+            <span class="fund-type">{{ f.type }}</span>
+          </li>
+        }
+      </ul>
+    }
+
+    @if (blockedFunds.length > 0 && deletableFunds.length === 0) {
+      <p class="no-action-text">No funds can be deleted from the current selection.</p>
+    }
+
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="cancelled.emit()" [disabled]="isLoading()">Cancel</button>
+      @if (deletableFunds.length > 0) {
+        <button class="btn-danger" (click)="onConfirm()" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner"></span> Deleting...
+          } @else {
+            Delete {{ deletableFunds.length }} Fund{{ deletableFunds.length > 1 ? 's' : '' }}
+          }
+        </button>
+      }
+    </div>
+  </div>
+</div>

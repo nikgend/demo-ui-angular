@@ -1,0 +1,203 @@
+@if (viewMode() === 'add' || viewMode() === 'edit') {
+  <app-add-fund
+    [engagementId]="engagementId"
+    [editFund]="editingFund()"
+    (saved)="onSaved($event)"
+    (cancelled)="onAddCancelled()">
+  </app-add-fund>
+} @else {
+  <div class="fund-list-page">
+
+    <!-- Header -->
+    <div class="page-header">
+      <nav class="breadcrumb">
+        <span>Dashboard</span><span class="sep">›</span>
+        <span>Engagement Setup</span><span class="sep">›</span>
+        <span class="current">Fund Scoping</span>
+      </nav>
+      <div class="header-row">
+        <div>
+          <h1>Fund Scoping</h1>
+          <p class="engagement-name">{{ engagementName }}</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-danger-outline" [disabled]="selectedIds().size === 0" (click)="openDeleteModal()">
+            <span>🗑</span> Delete Selected ({{ selectedIds().size }})
+          </button>
+          <button class="btn-primary" (click)="openAdd()">
+            <span>＋</span> Add Fund
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banners -->
+    @if (successBanner()) {
+      <div class="banner banner-success"><span>✓</span> {{ successBanner() }}</div>
+    }
+    @if (errorBanner()) {
+      <div class="banner banner-error"><span>⚠</span> {{ errorBanner() }}</div>
+    }
+
+    <!-- Info bar -->
+    <div class="info-bar">
+      <span class="info-icon">ℹ</span>
+      This screen shows all funds associated with this engagement. You can add, edit, or delete funds. 
+      Funds with completed Data Import cannot be deleted.
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="filters-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search funds by name, type or administrator..."
+          [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" />
+      </div>
+      <div class="filter-group">
+        <select [value]="filterStatus()" (change)="filterStatus.set($any($event.target).value)">
+          <option value="">All Statuses</option>
+          @for (s of uniqueStatuses(); track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+        <select [value]="filterType()" (change)="filterType.set($any($event.target).value)">
+          <option value="">All Fund Types</option>
+          @for (t of uniqueTypes(); track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <span class="stat"><strong>{{ filteredFunds().length }}</strong> funds shown</span>
+      @if (selectedIds().size > 0) {
+        <span class="stat selected"><strong>{{ selectedIds().size }}</strong> selected</span>
+      }
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-check">
+              <input type="checkbox" [checked]="allSelected()" (change)="toggleSelectAll()" />
+            </th>
+            <th class="sortable" (click)="toggleSort('name')">
+              Fund Name <span class="sort-icon">{{ getSortIcon('name') }}</span>
+            </th>
+            <th class="sortable" (click)="toggleSort('type')">
+              Type <span class="sort-icon">{{ getSortIcon('type') }}</span>
+            </th>
+            <th class="sortable" (click)="toggleSort('administrator')">
+              Administrator <span class="sort-icon">{{ getSortIcon('administrator') }}</span>
+            </th>
+            <th>Broker/Custodian</th>
+            <th class="sortable" (click)="toggleSort('reportingCurrency')">
+              Currency <span class="sort-icon">{{ getSortIcon('reportingCurrency') }}</span>
+            </th>
+            <th>Period</th>
+            <th>Materiality</th>
+            <th class="sortable" (click)="toggleSort('status')">
+              Status <span class="sort-icon">{{ getSortIcon('status') }}</span>
+            </th>
+            <th class="col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (filteredFunds().length === 0) {
+            <tr>
+              <td colspan="10" class="empty-state">
+                <div class="empty-inner">
+                  <span class="empty-icon">📋</span>
+                  <p>No funds found. {{ searchQuery() || filterStatus() || filterType() ? 'Try adjusting your filters.' : 'Click "Add Fund" to get started.' }}</p>
+                </div>
+              </td>
+            </tr>
+          }
+          @for (fund of filteredFunds(); track fund.id) {
+            <tr [class.selected-row]="isSelected(fund.id)"
+                [class.locked-row]="fund.dataImportComplete">
+              <td class="col-check">
+                <input type="checkbox" [checked]="isSelected(fund.id)" (change)="toggleSelect(fund.id)" />
+              </td>
+
+              <!-- Fund Name -->
+              <td class="fund-name-cell">
+                @if (editingInlineId() === fund.id) {
+                  <input class="inline-input" [(ngModel)]="inlineEditValues()['name']" />
+                } @else {
+                  <span class="fund-name-text">{{ fund.name }}</span>
+                  @if (fund.group) { <span class="group-badge">{{ fund.group }}</span> }
+                }
+              </td>
+
+              <td>
+                <span class="type-badge">{{ fund.type }}</span>
+              </td>
+
+              <td>{{ fund.administrator }}</td>
+
+              <td>
+                @if (editingInlineId() === fund.id) {
+                  <input class="inline-input" [(ngModel)]="inlineEditValues()['brokerCustodian']" />
+                } @else {
+                  {{ fund.brokerCustodian }}
+                }
+              </td>
+
+              <td>
+                @if (editingInlineId() === fund.id) {
+                  <input class="inline-input inline-sm" [(ngModel)]="inlineEditValues()['reportingCurrency']" />
+                } @else {
+                  {{ fund.reportingCurrency }}
+                }
+              </td>
+
+              <td class="period-cell">
+                <span>{{ fund.periodBegin | date:'MMM d, y' }}</span>
+                <span class="period-sep">→</span>
+                <span>{{ fund.periodEnd | date:'MMM d, y' }}</span>
+              </td>
+
+              <td class="number-cell">{{ formatCurrency(fund.materiality) }}</td>
+
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(fund.status)">
+                  {{ fund.status }}
+                </span>
+                @if (fund.dataImportComplete) {
+                  <span class="lock-icon" title="Data Import Complete — deletion blocked">🔒</span>
+                }
+              </td>
+
+              <td class="col-actions">
+                @if (editingInlineId() === fund.id) {
+                  <button class="btn-icon btn-save" (click)="saveInlineEdit(fund)" title="Save">✓</button>
+                  <button class="btn-icon btn-cancel" (click)="cancelInlineEdit()" title="Cancel">✕</button>
+                } @else {
+                  <button class="btn-icon btn-edit" (click)="openEdit(fund)" title="Edit fund">✏</button>
+                  <button class="btn-icon btn-delete"
+                    [disabled]="fund.dataImportComplete"
+                    [title]="fund.dataImportComplete ? 'Cannot delete: Data Import complete' : 'Delete fund'"
+                    (click)="toggleSelect(fund.id); openDeleteModal()">🗑</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+@if (showDeleteModal()) {
+  <app-delete-fund-modal
+    [selectedFunds]="selectedFundObjects()"
+    [engagementId]="engagementId"
+    (deleted)="onDeleted($event)"
+    (cancelled)="onDeleteCancelled()">
+  </app-delete-fund-modal>
+}

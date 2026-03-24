@@ -1,0 +1,168 @@
+.fund-list-page {
+  padding: 24px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 20px;
+  h1 { font-size: 24px; font-weight: 700; color: #1a1a2e; margin: 4px 0 2px; }
+  .engagement-name { font-size: 13px; color: #6b7280; margin: 0; }
+}
+
+.header-row {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+}
+
+.header-actions {
+  display: flex; gap: 10px; align-items: center;
+}
+
+.breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: #6b7280; margin-bottom: 6px;
+  .sep { color: #d1d5db; }
+  .current { color: #1a1a2e; font-weight: 500; }
+}
+
+.banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 8px; margin-bottom: 14px;
+  font-size: 14px; font-weight: 500;
+  &-success { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
+  &-error { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; }
+}
+
+.info-bar {
+  background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;
+  padding: 10px 14px; font-size: 13px; color: #1e40af;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  .info-icon { font-size: 15px; }
+}
+
+.filters-row {
+  display: flex; gap: 12px; align-items: center; margin-bottom: 12px;
+  .search-wrap {
+    flex: 1; position: relative;
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 15px; }
+    input {
+      width: 100%; padding: 9px 12px 9px 34px;
+      border: 1.5px solid #d1d5db; border-radius: 8px;
+      font-size: 14px; outline: none;
+      &:focus { border-color: #2563eb; }
+    }
+  }
+  .filter-group {
+    display: flex; gap: 8px;
+    select {
+      padding: 9px 12px; border: 1.5px solid #d1d5db; border-radius: 8px;
+      font-size: 13px; background: #fff; outline: none; cursor: pointer;
+      &:focus { border-color: #2563eb; }
+    }
+  }
+}
+
+.stats-bar {
+  display: flex; gap: 16px; align-items: center;
+  font-size: 13px; color: #6b7280; margin-bottom: 12px;
+  .stat { strong { color: #1a1a2e; } }
+  .selected { color: #2563eb; strong { color: #2563eb; } }
+}
+
+.table-container {
+  background: #fff; border-radius: 12px;
+  border: 1px solid #e5e7eb; overflow: auto;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+  th {
+    background: #f8fafc; padding: 11px 14px;
+    text-align: left; font-weight: 600; color: #374151;
+    border-bottom: 2px solid #e5e7eb; white-space: nowrap;
+    &.sortable { cursor: pointer; user-select: none;
+      &:hover { background: #f1f5f9; }
+    }
+    .sort-icon { font-size: 11px; opacity: 0.6; }
+  }
+  td {
+    padding: 11px 14px; border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle; color: #374151;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbff; }
+  .selected-row td { background: #eff6ff !important; }
+  .locked-row td { opacity: 0.85; }
+}
+
+.col-check { width: 40px; }
+.col-actions { width: 90px; }
+
+.fund-name-cell {
+  display: flex; flex-direction: column; gap: 3px;
+  .fund-name-text { font-weight: 600; color: #1a1a2e; }
+  .group-badge {
+    font-size: 11px; background: #e0e7ff; color: #3730a3;
+    padding: 2px 6px; border-radius: 10px; display: inline-block; width: fit-content;
+  }
+}
+
+.type-badge {
+  font-size: 12px; background: #f3f4f6; color: #374151;
+  padding: 3px 8px; border-radius: 12px; white-space: nowrap;
+}
+
+.status-badge {
+  font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 600;
+  white-space: nowrap;
+  &.status-active { background: #dcfce7; color: #15803d; }
+  &.status-routine { background: #fef9c3; color: #854d0e; }
+  &.status-import { background: #dbeafe; color: #1d4ed8; }
+  &.status-analysis { background: #fce7f3; color: #9d174d; }
+}
+
+.lock-icon { font-size: 12px; margin-left: 5px; opacity: 0.7; }
+
+.period-cell {
+  white-space: nowrap; font-size: 12px;
+  .period-sep { margin: 0 4px; color: #9ca3af; }
+}
+
+.number-cell { font-family: monospace; font-size: 12px; }
+
+.btn-icon {
+  width: 30px; height: 30px; border: none; border-radius: 6px;
+  cursor: pointer; font-size: 14px; display: inline-flex;
+  align-items: center; justify-content: center; transition: all 0.15s;
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
+  &.btn-edit { background: #eff6ff; color: #2563eb; &:hover:not(:disabled) { background: #dbeafe; } }
+  &.btn-delete { background: #fef2f2; color: #dc2626; &:hover:not(:disabled) { background: #fee2e2; } }
+  &.btn-save { background: #f0fdf4; color: #16a34a; &:hover { background: #dcfce7; } }
+  &.btn-cancel { background: #f9fafb; color: #6b7280; &:hover { background: #f3f4f6; } }
+}
+
+.inline-input {
+  padding: 5px 8px; border: 1.5px solid #2563eb;
+  border-radius: 6px; font-size: 13px; width: 100%;
+  min-width: 80px; outline: none;
+  &.inline-sm { max-width: 60px; }
+}
+
+.empty-state { text-align: center; padding: 48px 20px !important; }
+.empty-inner {
+  .empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
+  p { color: #6b7280; font-size: 14px; margin: 0; }
+}
+
+.btn-primary, .btn-danger-outline {
+  padding: 9px 18px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: all 0.2s; border: none;
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+.btn-primary { background: #2563eb; color: #fff; &:hover:not(:disabled) { background: #1d4ed8; } }
+.btn-danger-outline {
+  background: #fff; color: #dc2626; border: 1.5px solid #fca5a5;
+  &:hover:not(:disabled) { background: #fef2f2; border-color: #dc2626; }
+}
